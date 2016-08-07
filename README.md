@@ -16,4 +16,3 @@ Das Template der HTWG enthält zudem folgende zwei Fehler, die in dieser Vorlage
 
 
 Erweiterungen / Verbesserungen sind gewünscht!
-
