@@ -11,6 +11,8 @@ Wichtig ist hierbei auch der letzte Punkt der Lizenzierung, da diese konform zu 
 
 Bei der Realisierung des Konsolen Interface war besonders die intuitive Benutzbarkeit und "Ubersichtlichkeit wichtig. Sowohl bei der Wahl der Parameter f"ur die Ausf"uhrung, als auch bei der erzeugten Ausgabe.
 
+\subsection{Parameter basiert}
+
 Das intuitivste Bedienkonzept f"ur eine Konsolen-Anwendung ist der Aufruf mit Parametern. Durch diese werden alle Optionen gesetzt und das Programm ben"otigt keine Interaktion w"ahrend der Ausf"uhrung. Der Nachteil ist allerdings ganz offensichtlich: Der Nutzer muss zum starten des Programms zuerst die Liste der verf"ugbaren Parameter und deren Bedeutung kennen. Zudem k"onnen Aufrufe sehr schnell sehr lang werden, was die "Ubersichtlichkeit einschr"ankt.
 
 Trotz dieser Nachteile ist die M"oglichkeit eines parametrisierten Aufrufs unverzichtbar f"ur eine Programm mit ausschlie"slich textueller Oberfl"ache. F"ur die Implementierung existieren in Java einige Bibliotheken und Framerworks, wie Beispielsweise:
@@ -31,13 +33,22 @@ F"ur die gesamte Implementierung gilt das bei invaliden Parameter-Kombinationen 
 
 \lstinputlisting[label=code:usage,caption=Hilfe Ausgabe mit Parametererkl\"arung]{umsetzung/usage.txt} 
 
-Weitere M"ogliche Bedienkonzepte sind ein navigierbares Men"u und ein interaktiver Modus.
+\subsection{Zus"atzliche Bedienkonzepte}
+
+Weitere m"ogliche Bedienkonzepte sind ein navigierbares Men"u und ein interaktiver Modus.
 
 Bei dem navigierbaren Men"u k"onnte man dann mit Hilfe der einzelnen Optionen eine Konfiguration erstellen, diese potenziell abspeichern und damit starten. Dieses Konzept ist besonders f"ur komplexe Einstellungen geeignet, da es die M"oglichkeit bietet, in einer "ubersichtlichen Form eine reihe von Optionen zu w"ahlen. Dies kommt jedoch mit dem Nachteil, das selbst einfache Konfigurationen vergleichsweise lange zum erstellen ben"otigen. Zudem ist ein Men"u in der Implementierung aufw"andig.
 
 Ein interaktiver Modus hingegen ist die Einsteiger freundlichste Methode. Hierbei wird durch eine Reihe von Fragen der User nach dem gew"unschten Einstellungen gefragt, in einer geordneten Reihenfolge und mit der M"oglichkeit f"ur ausf"uhrlichere Erkl"arungen der Option. Auch hier ist ein klarer Nachteil das einfache Konfigurationen, im Vergleich zu einem Parametrisierten-Start, l"anger zum starten ben"otigen. Der gro"se Vorteil ist jedoch, das auch unerfahrene Nutzer direkt die Software benutzen k"onnen. Die definierte Reihenfolge und das pr"ufen von Eingaben sorgen daf"ur, das Konfigurationen immer Valide sind.
 
-Aufgrund der Zielgruppe der Anwendung, Programmiereinsteigern mit einfachen Programmen, ist eine einfache Benutzung wichtiger als die M"oglichkeit komplexe Konfigurationen zu erstellen.
+Aufgrund der Zielgruppe der Anwendung, Programmiereinsteigern mit einfachen Programmen, ist eine einfache Benutzung wichtiger als die M"oglichkeit komplexe Konfigurationen zu erstellen. Das daf"ur passendere Konzept ist der interaktive Modus.
+
+\subsection{Interaktiver Modus}
+
+Bei der Umsetzung des interaktiven Modus m"ussen eine Vielzahl von Fragen mit validierten antworten an den User gestellt werden. Damit eine invalide Antwort nicht zum Abbruch des Programmes f"uhrt, m"ussen alle Fragen wiederholt werden k"onnen bis eine g"ultige Antwort gegeben wird. Dies l"asst sich am einfachsten "uber eine Reihe von Schleifen realisieren, welche jeweils lediglich die Frage ausgeben und auf Antwort warten, bis diese g"ultig ist. Um eine bessere Lesbarkeit zu erreichen werden einfach Ja/Nein-Fragen mithilfe einer Hilfsmethode durchgef"uhrt, welche die Validierung "ubernimmt und die Antwort direkt als boolean liefert. Somit muss nur die Validierung von Fragen mit spezifischen Antwortm"oglichkeiten, wie einer Auswahl oder einem definierten Format, in der Methode durchgef"uhrt werden.
+
+Diese Implementierung ist "au"serst rudiment"ar und kann mit steigender Komplexit"at und Anzahl an Parametern schnell un"ubersichtlich werden, jedoch f"ur den aktuellen Umfang noch ausreichend.
+Bei zuk"unftigen Erweiterungen sollte aber eine Abstraktion der Optionen in Betracht gezogen werden, welche dann von jedem Interface zur Darstellung genutzt wird. Dies w"urde Definition und Verarbeitung sauber trennen und Fehlerquellen minimieren.
 
 \section{Individueller Class-Loader}
 
@@ -60,6 +71,40 @@ Referenz aufs Codebeispiel \ref{code:minspring}.
 
 \section{Lizenzierung} 
 
-ASM Lizens bla blub \cite{asm_license}
+Bei der Wahl der Lizenz f"ur die neu entwickelte Software war es wichtig, dass diese Kompatibel zu den Lizenzen der Abh"angigkeiten ist. Da keine externen Bibliotheken verwendet wurden und nur ein Framework benutzt wird musste hier nicht viel beachtet werden.
 
-Also alles easy, geht fast jede Lizenz wenn man LIZENZ.txt in die jar packt.
+Das benutzte Framework, ASM, steht unter einer nicht benannten Lizenz, die der BSD-Lizenz sehr "ahnlich ist. Der relevante Teil von dieser, welcher sich auf Verwendung und Redistribution bezieht ist folgender:
+
+{\itshape
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+\begin{enumerate}
+	\item Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+	\item Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+	\item Neither the name of the copyright holders nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+\end{enumerate}
+}
+\cite{asm_license}
+
+Somit sind die einzigen Einschr"ankungen, dass die Lizenz des Frameworks unver"andert bleiben muss und mit angeh"angt, wenn sie gemeinsam ausgeliefert wird.
+
+Da das Ziel der Arbeit ein Lehrmittel war, welches nicht f"ur kommerzielle Anwendung ausgelegt ist und auch kein Unternehmen hinter der Entwicklung steht, ist eine Open-Source Lizenz für frei Nutzung hier geeignet. Hierf"ur gibt es eine gro"se Auswahl. Zu den verbreitetsten Lizenzen z"ahlen:
+
+\begin{itemize}
+	\item \ac{GPL}
+	\item \ac{LGPL}
+	\item Apache-Lizenz
+	\item \ac{BSD}-Lizenz
+	\item \ac{EUPL}
+\end{itemize}
+
+Alle diese Lizenzen sind sich relativ "ahnlich, haben aber im Detail Unterschiede.
+Bei der \ac{GPL} muss jede Software die unter GPL lizenzierte Teile enth"alt, unabh"angig ob in Originalfassung oder modifiziert, auch unter der \ac{GPL} lizenziert werden, dies nennt sich "`Copyleft"'.
+Die \ac{LGPL} ist hier weniger strikt, lediglich die \ac{LGPL}-Teile der Software m"ussen "offentlich gemacht werden und von Nutzern ersetzbar oder "anderbar sein.
+Die Apache-Lizenz ist der \ac{LGPL} sehr "ahnlich, jedoch lassen sich hier eigene weitere Urheberrechtsvermerke hinzuf"ugen.
+Auch die \ac{BSD}-Lizenz ist dieser sehr "ahnlich, hat jedoch, in ihrer Originalform, eine Werbeklausel, welche in allen Werbematerialien enthalten sein muss.
+Die \ac{EUPL} schlussendlich bietet den gro"sen Vorteil, das sie in 22 Sprachen verf"ugbar ist.
+
+Deshalb EUPL

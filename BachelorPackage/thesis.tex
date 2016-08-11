@@ -2,7 +2,8 @@
 		12pt,
 		a4paper,
 		toc=listof, %% Abbildungs- und Tabellenverzeichnis mit ins Inhaltsverzeichnis
-		bibliography=totoc %% Quellenverzeichnis mit ins Inhaltsverzeichnis
+		bibliography=totoc, %% Quellenverzeichnis mit ins Inhaltsverzeichnis
+		parskip=full
 		]{scrreprt}	 %% KOMA Script
 
 \input{preamble/packete}
@@ -11,6 +12,7 @@
 
 
 \begin{document}
+\setlength{\parskip}{0.4cm plus0.1cm minus0.1cm}
 %% Nummerierung aus
 \pagenumbering{gobble}
 
