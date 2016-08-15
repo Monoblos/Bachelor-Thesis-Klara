@@ -52,7 +52,7 @@ Bei zuk"unftigen Erweiterungen sollte aber eine Abstraktion der Optionen in Betr
 
 \section{Individueller Class-Loader}
 
-
+Um Bytecode manipulieren zu k"onnen, muss die jeweilige Klasse "uber einen selbst erstellten Class-Loader geladen werden. Dieser 
 
 \section{Transformer} 
 
@@ -101,10 +101,12 @@ Da das Ziel der Arbeit ein Lehrmittel war, welches nicht f"ur kommerzielle Anwen
 \end{itemize}
 
 Alle diese Lizenzen sind sich relativ "ahnlich, haben aber im Detail Unterschiede.
-Bei der \ac{GPL} muss jede Software die unter GPL lizenzierte Teile enth"alt, unabh"angig ob in Originalfassung oder modifiziert, auch unter der \ac{GPL} lizenziert werden, dies nennt sich "`Copyleft"'.
-Die \ac{LGPL} ist hier weniger strikt, lediglich die \ac{LGPL}-Teile der Software m"ussen "offentlich gemacht werden und von Nutzern ersetzbar oder "anderbar sein.
-Die Apache-Lizenz ist der \ac{LGPL} sehr "ahnlich, jedoch lassen sich hier eigene weitere Urheberrechtsvermerke hinzuf"ugen.
-Auch die \ac{BSD}-Lizenz ist dieser sehr "ahnlich, hat jedoch, in ihrer Originalform, eine Werbeklausel, welche in allen Werbematerialien enthalten sein muss.
-Die \ac{EUPL} schlussendlich bietet den gro"sen Vorteil, das sie in 22 Sprachen verf"ugbar ist.
+Bei der \ac{GPL} muss jede Software die unter GPL lizenzierte Teile enth"alt, unabh"angig ob in Originalfassung oder modifiziert, auch unter der \ac{GPL} lizenziert werden, dies nennt sich "`Copyleft"'. \cite{gpl_wiki}
+Die \ac{LGPL} ist hier weniger strikt, lediglich die \ac{LGPL}-Teile der Software m"ussen "offentlich gemacht werden und von Nutzern ersetzbar oder "anderbar sein. \cite{lgpl_wiki}
+Die Apache-Lizenz ist der \ac{LGPL} sehr "ahnlich, jedoch lassen sich hier eigene weitere Urheberrechtsvermerke hinzuf"ugen. \cite{apache_wiki}
+Auch die \ac{BSD}-Lizenz ist dieser sehr "ahnlich, hat jedoch, in ihrer Originalform, eine Werbeklausel, welche in allen Werbematerialien enthalten sein muss. \cite{bsd_wiki}
+Die \ac{EUPL} schlussendlich bietet den gro"sen Vorteil, das sie in allen 22 Amtssprachen der europ"aischen Union verf"ugbar ist und Berücksichtigung des europ"aischen Rechts erstellt wurde. \cite{eupl_wiki}
 
-Deshalb EUPL
+Die \ac{BSD}-Lizenz scheidet aufgrund ihrer Werbeklausel aus. \ac{LGPL} und Apache-Lizenz sind besser f"ur Bibliotheken und Framworks geeignet die in anderen Projekten eingebunden werden. Somit bleiben \ac{GPL} und \ac{EUPL} als passendste Lizenzen. Im Vergleich hier liefert die Mehrsprachigkeit der \ac{EUPL} sowie die spezifische Berücksichtigung europ"aischen Rechts ein klarer Entscheidung.
+
+Als Lizenz wurde somit die \ac{EUPL} verwendet, auf Grund des passenden starken Copylefts und der internationalen G"ultigkeit.
