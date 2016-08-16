@@ -33,7 +33,7 @@ F"ur die gesamte Implementierung gilt das bei invaliden Parameter-Kombinationen 
 
 \lstinputlisting[label=code:usage,caption=Hilfe Ausgabe mit Parametererkl\"arung]{umsetzung/usage.txt} 
 
-\subsection{Zus"atzliche Bedienkonzepte}
+\subsection{Zusätzliche Bedienkonzepte}
 
 Weitere m"ogliche Bedienkonzepte sind ein navigierbares Men"u und ein interaktiver Modus.
 
@@ -52,9 +52,32 @@ Bei zuk"unftigen Erweiterungen sollte aber eine Abstraktion der Optionen in Betr
 
 \section{Individueller Class-Loader}
 
-Um Bytecode manipulieren zu k"onnen, muss die jeweilige Klasse "uber einen selbst erstellten Class-Loader geladen werden. Dieser 
+Um Bytecode manipulieren zu können, muss die jeweilige Klasse über einen selbst erstellten Class-Loader geladen werden. Dieser hat die Möglichkeit nach dem laden der Binärdaten von der Festplatte und vor dem zurückgeben an die \ac{VM} diese zu verändern. Somit sind jegliche Änderungen am Code, die nur die geladene Klasse betreffen, einfach zu realisieren.
+
+Zum erstellen eines eigenen Class-Loaders muss die Java-Klasse "`ClassLoader"' des java.lang Pakets erweitert werden. Je nach Aufgabe der eigenen Implementierung können nun verschiedene Methoden überschrieben werden. Beispielsweise könnte man hier ein eigenes Caching implementieren, wozu lediglich die "`loadClass"' Methode überschrieben werden muss. Eine andere Anwendung wäre das laden von Klassen aus anderen Quellen, wie beispielsweise von einer Netzwerkressource. Bei der vorhandenen Implementierung musste sowohl "`loadClass"' als auch "`findClass"' überschrieben werden.
+
+Um dynamisch konfigurierbar zu sein, benötigt der erstellte Class-Loader eine reihe von Parametern:
+
+\lstinputlisting[language=Java,label=code:transParam,caption=Parameter des individuellen Class-Loader]{umsetzung/transformerParams.java}
+
+Die als "`tranformers"' übergebene Liste an Klassen, sind die für jeden Ladevorgang erstellten Event-Listener, welche die eigentliche Transformation durchführen. "`filterType"', "`filter"' und "`defaultLineSpec"' spezifizieren, welche Klassen modifiziert werden sollen und welcher Zeilen-Bereich. Wird bei einem Filter keine Zeilen-Spezifikation mit gegeben sondern "`null"', so wird der übergebene Standartwert verwendet.
+
+Die Methode "`loadClass"' ist dafür zuständig zu evaluieren, ob die angefragte Klasse modifiziert werden soll. Wenn bereits eine gecachte Version der Klasse vorliegen, so kann diese direkt zurück gegeben werden. Ist dies nicht der Fall, muss geprüft werden, ob die Klasse überhaupt modifiziert werden soll. Dies wird über eine Hilfsmethode geprüft, welche basierend auf dem gewählten Filtertyp und Filter in Kombination mit dem Namen der zu ladenden Klasse auswertet, ob diese Klasse zu manipuliert ist. Zu modifizierende Klassen werden mit Hilfe der "`findClass"'-Methode geladen, alle anderen mit Hilfe der Standard-Implementierung.
+
+Die andere überschriebene Methode, "`findClass"', wiederum ist für das finden, laden und modifizieren der Binärdaten verantwortlich. Dazu wird zunächst der Name der Klasse zu einem relativen Dateipfad gewandelt. Dies geschieht durch das ersetzen der Punkte, welche Pakete trennen, mit den Datei-Trennzeichen des jeweiligen Systems. Zusätzlich wird die typische Dateiendung "`.class"' angehängt. Sollte die Methode "`getResourceAsStream"' des normalen Class-Loaders diesen finden, so werden damit die Daten geladen. Ist dies nicht möglich, so wird der Pfad als FileInputStream geöffnet. Hier würde sich auch einfach das Programm erweitern lassen, um eine reihe verschiedener Pfade zu durchsuchen, oder in einem definierten (Unter)-Ordner nach Klassen zu suchen.
+
+Mit den fertig geladenen, unveränderten Klasse muss nun die ASM Event-Kette aufgebaut werden. Dies erfolgt in der umgekehrten Reihenfolge wie die Events weiter gegeben werden. Zuerst muss der "`ClassWriter"', welche aus den Events wieder ein Byte-Array erzeugen kann, erstellt werden. Dann wird der Tranformer (siehe \ref{sec:trans}) hinzugefügt, welcher seine Events an den Writer weiter geben wird. Außerdem werden sämtliche Event-Listener für ihn erstellt und die passende Line-Specification weiter gegeben. Schlussendlich wird, mithilfe der Bytes der unveränderten Klasse, ein "`ClassReader"' erstellt, welcher diese einliest und als folge von Events an den Tranformer weiter gibt.
+
+Zu dieser 3-Knoten Struktur lässt sich auch ein weiterer, 4. Knoten zwischen Tranformer und Writer einbauen, welche die erzeugten Bytecode-Befehle ausgibt. Dies ist hauptsächlich bei der Entwicklung neuer Transformation-Event-Listenern und der Weiterentwicklung des Tranformers hilfreich, wenn der erzeugte Code von der \ac{JVM} nicht ausführbar ist oder funktional nicht das erwünschte Ergebnis liefert. Durch die Position in der Event-Chain kann dieser den erzeugten Code ausgeben bevor er ausgeführt wird und es zu Problemen kommen könnte.
+
+Alternativ zu zum erstellen eines eigenen Class-Loaders welcher veränderten Bytecode lädt, lässt sich in Java auch ein sogenannter "`Agent"' registrieren. Dieser muss beim Aufruf der \ac{JVM} mit dem Parameter "`-javaagent"' spezifiziert werden. Ein solcher Agent wird dann nach dem laden einer Klasse aufgerufen und hat die Möglichkeit die geladenen Bytes nach belieben zu verändern. Somit ist die Manipulationen sauber getrennt vom laden der Klassen und eine bessere Kompatibilität mit anderen Programmen gewährleistet. Der große Nachteil ist hier jedoch, das die Übergabe von Parametern an den Agent sehr umständlich ist. Es kann lediglich ein einzelner String übergeben werden, der dann vom Agenten getrennt und verarbeitet werden muss. Ein Beispielhafter Aufruf mit einem Agenten ist in Listing~\ref{code:agentCall} dargestellt.
+
+\lstinputlisting[label=code:agentCall,caption=Beispiel Aufruf mit einem Agent]{umsetzung/agentCall.txt} 
+
+Die Parameterübergabe würde sich mit Hilfe eines Batch/Shell-Scripts in einem "`gewohnten"' Format realisieren lassen, jedoch sind die Vorteile eher gering und es ist weniger gut erweiterbar. Aufgrund dieser Punkte fiel die Entscheidung zugunsten des Class-Loaders.
 
 \section{Transformer} 
+\label{sec:trans}
 
 
 
