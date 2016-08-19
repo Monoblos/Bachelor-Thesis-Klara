@@ -2,14 +2,16 @@
 
 \chapter{Technische Grundlagen}
 
-In diesem Kapitel werden die 3 wichtigen technischen Grundlagen f"ur diese Arbeit beschrieben: Javas Bytecode, das ASM-Framework und das \ac{JDI}. Bytecode ist der "`"ubersetzte"' Java-Code, ASM bietet die M"oglichkeit diesen zu analysieren und manipulieren. Mit \ac{JDI} l"asst sich eine \ac{JVM} erstellen von der Laufzeitinformationen ausgelesen werden k"onnen. Sowohl ASM als auch \ac{JDI} bieten somit die M"oglichkeit den Ablauf eines Programms zu Analysieren.
+In diesem Kapitel werden die 3 wichtigen technischen Grundlagen für diese Arbeit beschrieben: Javas Bytecode, das ASM-Framework und das \ac{JDI}. Bytecode ist der "`übersetzte"' Java-Code, ASM bietet die Möglichkeit diesen zu analysieren und manipulieren. Mit \ac{JDI} lässt sich eine \ac{JVM} erstellen von der Laufzeitinformationen ausgelesen werden können. Sowohl ASM als auch \ac{JDI} bieten somit die Möglichkeit den Ablauf eines Programms zu Analysieren.
 
 \section{Java Bytecode} 
 
 Java Bytecode ist sogenannter "`intermidiate Code"', ein Maschienencode "ahnliche Form, welche jedoch nicht direkt auf einem Prozessor ausgef"uhrt werden kann. Eine andere Programmiersprache die diese Technik verwendet ist C\#.
 
-Der Vorteil von diesem Format ist, das es sich dabei bereits um eine kompaktere Form des urspr"ungliche Code handelt, welche trotzdem Plattformunabh"angig ist. Somit l"asst sich der selbe Code auf jedem beliebigen Betriebssystem und unabh"angig der Prozessorarchitektur ausf"uhren, solange diese die passende Ausf"uhrungseinheit besitzt.
-Bei Java ist dies die \ac{JVM}, welche Bytecode ausf"uhren kann, bei C\# es die .NET-Laufzeitumgebung. 
+Der Vorteil von diesem Format ist, das es sich dabei bereits um eine kompaktere Form des ursprünglichen Codes handelt, welche trotzdem Plattform unabhängig ist. Somit lässt sich der selbe Code auf jedem beliebigen Betriebssystem und unabhängig der Prozessorarchitektur ausführen, solange diese die passende Ausführungseinheit besitzt.
+Bei Java ist dies die \ac{JVM}, welche Bytecode ausführen kann, bei C\# ist es die .NET-Laufzeitumgebung.
+
+Auch mehrere anderer Sprachen, wie PHP und Python, verwenden Bytecode, obwohl sie offensichtlich direkt interpretierten Code auszuführen scheinen. Jedoch bietet Python beispielsweise die Möglichkeit auch den Bytecode zu speichern.
 
 \section{ASM} 
 
