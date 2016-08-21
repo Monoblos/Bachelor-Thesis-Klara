@@ -6,16 +6,52 @@ In diesem Kapitel werden die 3 wichtigen technischen Grundlagen für diese Arbei
 
 \section{Java Bytecode} 
 
-Java Bytecode ist sogenannter "`intermidiate Code"', ein Maschienencode "ahnliche Form, welche jedoch nicht direkt auf einem Prozessor ausgef"uhrt werden kann. Eine andere Programmiersprache die diese Technik verwendet ist C\#.
+Java Bytecode ist sogenannter "`intermidiate Code"', ein Maschienencode ähnliche Form, welche jedoch nicht direkt auf einem Prozessor ausgeführt werden kann. Eine andere Programmiersprache die diese Technik verwendet ist C\#.
 
 Der Vorteil von diesem Format ist, das es sich dabei bereits um eine kompaktere Form des ursprünglichen Codes handelt, welche trotzdem Plattform unabhängig ist. Somit lässt sich der selbe Code auf jedem beliebigen Betriebssystem und unabhängig der Prozessorarchitektur ausführen, solange diese die passende Ausführungseinheit besitzt.
 Bei Java ist dies die \ac{JVM}, welche Bytecode ausführen kann, bei C\# ist es die .NET-Laufzeitumgebung.
 
-Auch mehrere anderer Sprachen, wie PHP und Python, verwenden Bytecode, obwohl sie offensichtlich direkt interpretierten Code auszuführen scheinen. Jedoch bietet Python beispielsweise die Möglichkeit auch den Bytecode zu speichern.
+Auch mehrere anderer Sprachen, wie \ac{PHP} und Python, verwenden Bytecode, obwohl sie offensichtlich direkt interpretierten Code auszuführen scheinen. Jedoch bietet Python beispielsweise die Möglichkeit auch den Bytecode in eine "`pyc"'-Datei zu speichern.
 
-\section{ASM} 
+Da Bytecode eine sehr exakte Repräsentation des originalen Codes darstellt, lässt sich dieser auch wieder daraus gewinnen. Mit verschiedenen existierenden Werkzeugen ist es so möglich, den Code eines Java oder C\# Programms zu erzeugen, obwohl nur der Bytecode zur Verfügung gestellt wurde.
 
-Javassist
+Dies bietet jedoch auch den Vorteil, das Bytecode sehr einfach manipuliert werden kann, nachdem er erzeugt wurde. Dies ermöglicht Änderungen, welche erst zur Laufzeit sichtbar werden, ohne den originalen Code zu kennen oder zu verändern. Auch dafür existieren Hilfsmittel, mit denen solche Manipulationen vereinfacht werden. In Java sind hierbei die beiden größten Frameworks ASM und Javassist.
+
+\section{ASM und Javasisst} 
+
+ASM und Javasisst bieten beide Möglichkeiten um Bytecode zu analysieren und Manipulieren. Der wichtigste Unterschied hierbei ist jedoch die Abstraktionsebene: ASM bietet eine Assembler ähnliche direkte Darstellung, Javasisst eine am original Code angenäherte Form. Da natürlich beide Vorteile und Nachteile bieten geht dieser Abschnitt genauer darauf ein und begründet die Entscheidung welche Technik für dieses Projekt besser geeignet ist.
+
+\textbf{ASM}
+
+Der Name ASM ist keine Abkürzung im eigentlichen Sinn, sondern kommt vom dem Befehlt "`asm"' mit welchem sich in C direkt Assembler-Befehle ausführen lassen. Dieser Befehlt wiederum ist eine Abkürzung für "`Assembler"'. Die erste Version wurde 2002 von Eric Bruneton veröffentlicht und seitdem weiterentwickelt, mit der zum Zeitpunkt dieser Arbeit neusten Version veröffentlicht im März 2016.
+
+Wie der Namensursprung vermuten lässt ist das Framework für Manipulation auf Bytecode-Ebene ausgelegt, welche in einer Assambler ähnlichen Form erfolgen. Zusätzlich dazu bietet es auch die Möglichkeit den existierenden Code zu analysieren und so dynamisch existierende Klassen zu verändern. Für die Analyse und Manipulation gibt es hier 2 verschiedene Möglichkeiten: Eine einfach Event-Chain Struktur, welche hohe Performance bietet, aber deren Ablauf unveränderlich ist und eine Baum-Struktur, die langsamer ist, aber eine ungeordnete Modifikation erlaubt.
+Je nach Einsatzzweck ist es auch möglich beide Techniken zu kombinieren, da sich eine Baum-Transformation in eine Event-Chain integrieren lässt. So sind komplexe Analysen und Transformationen möglich, sowohl statisch als auch dynamisch.
+
+Der Nachteil dieses Frameworks ist der erhöhte Aufwand sich mit der Bytecode-Notation vertraut zu machen, welche hier die einzige Form ist neuen Code ein zu fügen. Es ist nicht nötig jedes Detail selbst als Bytecode schreiben zu können, jedoch sollte ein gutes Verständnis der Abläufe vorhanden sein. Wenn komplexerer Code erzeugt werden soll, so kann dieser in Java geschrieben, compiliert und dann mit ASM analysiert werden, um den dafür benötigten Bytecode zu generieren. Auch die äußerst ausführliche Dokumentation erleichtert den Einstieg gewaltig, da sie alle nötigen Details beschreibt.
+
+\textbf{Javasisst}
+
+Der Name Javasisst steht für "`Java Programming Assistant"'. Das Framework existiert seit 1999 und wird in Japan von Shigeru Chiba entwickelt. Der Fokus liegt bei einer Manipulation auf Sourcecode ebene, obwohl es auch Werkzeuge zu Bearbeitung auf Bytecode-Ebene liefert.
+
+Der Vorteil hierbei liegt eindeutig bei der einfachen Benutzung, da Java-Code eingefügt werden kann und der Entwickler sich nicht im Detail mit Bytecode beschäftigen muss. Dies erlaubt einen schnellen Einstieg und die Möglichkeit auch komplexen Code ohne großen Aufwand ein zu fügen.
+
+Der Nachteil ist jedoch ähnlich offensichtlich: Dadurch das der Fokus der Entwicklung nicht auf dem Bytecode lag, sind die Möglichkeiten vorhandenen Code zu analysieren sehr beschränkt. Es kommt durchaus mit Möglichkeiten dazu, jedoch nur in einer abstrakten Form, ohne Möglichkeit detaillierter zu Scannen. Hier sind hauptsächlich aussagen über den Speicher möglich, sowie über wenige grundsätzliche Kontrollflüsse. Dies hat natürlich nur bei dynamischen Transformationen Einfluss, statische sind hierbei nicht beeinträchtigt.
+
+\textbf{Entscheidung}
+
+Da die ausgeführten Manipulationen sehr generisch und dynamisch sind, sollte das Framework auch dafür ausgelegt sein. Hierbei ist die niedrige Ebene auf der ASM arbeitet von Vorteil, da Änderungen einfach auf Grundlage von Aktionen kleinster Granularität ausgeführt werden können. Die Abstraktion von Javassist bietet hier viel weniger Möglichkeiten. Lediglich für die grob definierten Strukturen könnten Änderungen gemacht werden.
+
+Die initiale Hürde von ASM kann dabei nicht umgangen werden, jedoch scheint ein Verständnis des Bytecodes unerlässlich um diesen zielführend Analysieren zu können, selbst wenn Änderungen mit normalem Java-Code eingefügt werden können. Aus diesem Grund lässt sich dies nicht vermeiden. Bei ASM macht die Dokumentation den Einstieg sowohl in Bytecode als auch das Framework jedoch so einfach wie möglich.
+
+Aus diesen Gründen ist ASM die beste Alternative für eine Modifizierung des Bytecodes zur Ausführung. Zusätzlich bietet es auch ein großes Potenzial für Erweiterungen, da sowohl jegliche Art von Struktur erkannt als auch hinzugefügt oder verändert werden kann.
 
 \section{JDI} 
 
+\ac{JDI} steht für das "`Java Debug Interface"'. Dies ist eine \ac{API} von Oracle, mit deren Hilfe eine \ac{JVM} angehalten werden kann und Laufzeitinformationen ausgelesen. Dies funktioniert sowohl für lokale als auch für entfernte virtuelle Maschinen. \ac{JDI} stellt dabei die höchste Ebene der \ac{JDPA} dar, welche seit der Version 1.3 von Java verfügbar ist.
+
+Dies kann dazu genutzt werden, ein Java-Programm in einer spezifisch eingestellten \ac{JVM} zu starten, welche bei einer eingestellten Liste von Befehlstypen die Ausführung unterbricht und die Kontrolle an eine andere Anwendung übergibt, welche alle Laufzeitinformationen der erstellten \ac{JVM} auslesen kann. Indem nach jedem ausgeführtem Befehl unterbrochen wird, lässt sich somit ein Trace des gesamten Programmablaufs erstellen. Der wichtige Vorteil ist hierbei, das keine Manipulation des ausgeführten Codes notwendig ist.
+
+Der Nachteil wiederum ist, das dies nicht auf der "`normalen"' \ac{JVM} der \ac{JRE} möglich ist, sondern lediglich auf der des \ac{JDK}. Da auf nahezu jedem System Java-Programme nur mit der \ac{JRE} ausgeführt werden, würde die Benutzung eine besondere Konfiguration voraussetzen. Zudem hat \ac{JDI} nahezu keine Informationen über das zu untersuchende Programm, bevor dieses nicht Ausgeführt wurde.
+
+Für diese Anwendung war die benötigte spezielle Konfiguration auf dem Ziel-System jedoch ein KO-Kriterium, auch wenn einfach Tests mit \ac{JDI} vielversprechende Ergebnisse geliefert haben.
