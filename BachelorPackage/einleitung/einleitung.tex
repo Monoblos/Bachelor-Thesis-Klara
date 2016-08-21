@@ -2,29 +2,31 @@
 
 \chapter{Einleitung}
 
-Für fundiertes Verst"andnis von Java und um ein Grundlagen-orientiertes lernen zu erm"oglichen hilft es anf"anglich nur mit einem normalen Texteditor Code zu schreiben und diesen dann selbst mittels Konsole zu kompilieren.
-Mit diesem Ansatz dauert es möglicherweise etwas länger bis erster ausf"uhrbarer Code entsteht, jedoch ist der Lernerfolg gr"o"ser da alle Schritte dorthin selbst Ausgef"uhrt wurden und damit transparent sind.
+Für fundiertes Verständnis von Java und um ein Grundlagen-orientiertes lernen zu ermöglichen hilft es anfänglich nur mit einem normalen Texteditor Code zu schreiben und diesen dann selbst mittels Konsole zu kompilieren.
+Mit diesem Ansatz dauert es möglicherweise etwas länger bis erster ausführbarer Code entsteht, jedoch ist der Lernerfolg größer da alle Schritte dorthin selbst Ausgeführt wurden und damit transparent sind.
 
-Da gerade Anf"angern es schwer f"allt die Ursache von auftretenden Problemen bei der Ausf"uhrung zu finden, welche nicht bereits vom Compiler erkannt werden k"onnen, kann dies jedoch schnell m"uhsam werden. Selbst simple Probleme, wie eine falsch definierte Bedingung in einer Schleife oder Verzweigung, stellen hier ein ernstes Hindernis dar.
+Da gerade Anfängern es schwer fällt die Ursache von auftretenden Problemen bei der Ausführung zu finden, welche nicht bereits vom Compiler erkannt werden können, kann dies jedoch schnell mühsam werden. Selbst simple Probleme, wie eine falsch definierte Bedingung in einer Schleife oder Verzweigung, stellen hier ein ernstes Hindernis dar.
 
-Hierbei soll "`Klara"' zum Einsatz kommen. Es hilft dabei, den Ablauf des Programms zu verstehen, ohne den Code daf"ur "andern zu m"ussen oder eine schwergewichtige \ac{IDE} zu verwenden.
+Hierbei soll "`Klara"' zum Einsatz kommen. Es hilft dabei, den Ablauf des Programms zu verstehen, ohne den Code dafür ändern zu müssen oder eine schwergewichtige \ac{IDE} zu verwenden.
 
-In dieser Thesis wird dazu zuerst einmal auf die Problemstellung eingegangen. Hierbei wird beleuchtet, warum die Entwicklung n"otig war und welche Rolle das Programm einnehmen soll.
-Im zweiten Kapitel besch"aftigt sich diese Arbeit mit der Analyse von Umgebung und Anforderungen. Hier wird auch darauf eingegangen was man genau unter tracing versteht und welche Einsatz-Szenarien möglich sind.
-Im darauffolgenden Abschnitt werden die 3 wichtigen technischen Grundlagen genauer dargelegt: Java-Bytecode, ASM und \ac{JDI}.
-Da somit die Rahmenbedingungen der Arbeit klar sein sollten, wird in Kapitel 4 die Umsetzung genau erkl"art.
+In dieser Thesis wird dazu zuerst einmal auf die Problemstellung eingegangen. Hierbei wird beleuchtet, warum die Entwicklung nötig war und welche Rolle das Programm einnehmen soll.
+Im zweiten Kapitel beschäftigt sich diese Arbeit mit der Analyse von Umgebung und Anforderungen. Hier wird auch darauf eingegangen was man genau unter tracing versteht und welche Einsatz-Szenarien möglich sind.
+Im darauffolgenden Abschnitt werden die 3 wichtigen technischen Grundlagen genauer dargelegt: Bytecode, ASM und \ac{JDI}.
+Da somit die Rahmenbedingungen der Arbeit klar sein sollten, wird in Kapitel 4 die Umsetzung genau erklärt.
 
 Die wichtigen Aspekte hierbei sind:
 \begin{itemize}
-	\item Das Konsolen-Interface, "uber das der Nutzer die Anwendung bedient
-	\item Der individuelle ClassLoader, welcher eine Manipulation des Ausgef"uhrten Codes erm"oglicht
-	\item Der Transformer, welcher modulare "Anderungen ausf"uhren kann
-	\item Die Lizenzierung, um Konform zu der Lizenz des verwendeten Framwork zu bleiben
+	\item Das Konsolen-Interface, über das der Nutzer die Anwendung bedient
+	\item Der individuelle \code{ClassLoader}, welcher eine Manipulation des Ausgeführten Codes ermöglicht
+	\item Der Transformer, welcher modulare Änderungen ausführen kann
+	\item Die Lizenzierung, um Konform zu der Lizenz des verwendeten Framework zu bleiben
 \end{itemize}
 
-Schlussendlich wird in einem Fazit das Ergebnis der Arbeit reflektiert, ein Ausblick auf m"ogliche weitere Zuk"unftige Funktionen gegeben und es werden andere potenzielle Anwendungsbereiche f"ur diese Technologie dargelegt.
+Schlussendlich wird in einem Fazit das Ergebnis der Arbeit reflektiert, ein Ausblick auf mögliche weitere Zukünftige Funktionen gegeben und es werden andere potenzielle Anwendungsbereiche für die verwendete Technologie dargelegt.
 
 \section{Problemstellung} 
 
-Im Java Umfeld gibt es eine Reihe von Tools zum debuggen von Anwendungen, jedoch sind diese alles gro"se und meist komplexe Programme. Zudem sind diese auch h"aufig Teil einer \ac{IDE} und nicht ohne diese einsetzbar.
-In anderen Programmiersprachen, wie beispielsweise C, gibt es hierzu gro"se und m"achtige Hilfsmittel, als wahrscheinlich bekanntesten der \ac{DDD}. Auch modernere Sprachen wie beispielsweise Python bieten hierf"ur Programme.
+Im Java Umfeld gibt es eine Reihe von Tools zum debuggen von Anwendungen, jedoch sind diese alles große und meist komplexe Programme. Zudem sind diese auch häufig Teil einer \ac{IDE} und nicht ohne diese einsetzbar.
+In anderen Programmiersprachen, wie beispielsweise C, gibt es hierzu auch große und mächtige Hilfsmittel auf der Kommandozeile. Das wahrscheinlich bekanntestes ist der \ac{DDD}. Bei moderneren Programmiersprachen ist dies jedoch zunehmen verloren gegangen, da heute nahezu jeder mit einer \ac{IDE} arbeitet, welche in der Regel einen grafischen Debugger mit sich bringt.
+
+Viele Anfänger benutzen deshalb von Anfang an eine \ac{IDE}, um bei Problemen auf den Debugger der Umgebung zurückgreifen zu können, jedoch ist dies nicht Ziel führend. Zum einen sind die integrierten Debugger meist sehr komplex, was Anfängern auch das finden einfacher Fehler schwer macht. Zum anderen kommt die Umgebung mit zahlreichen anderen Features, welche viele Schritte kombinieren und Anfängern nicht ersichtlich machen, was genau passiert.
