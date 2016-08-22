@@ -12,18 +12,19 @@
 
 
 \begin{document}
-\setlength{\parskip}{0.4cm plus0.1cm minus0.1cm}
 %% Nummerierung aus
 \pagenumbering{gobble}
 
+\setlength{\parskip}{0cm} 
 %% HTWG Tempaltes fuer Titelseite etc.
-\include{htwg/cover}
-\include{htwg/title}
-\include{htwg/abstract}
+{\fontsize{11}{13} \include{htwg/cover}}
+{\fontsize{11}{13} \include{htwg/title}}
+{\fontsize{11}{13} \include{htwg/abstract}}
 
 \pagenumbering{Roman}
 \include{htwg/affidavit}
 
+\setlength{\parskip}{0.4cm plus0.1cm minus0.1cm}
 {\fontsize{11}{13} \tableofcontents}
 
 \input{acronym}

@@ -2,20 +2,20 @@
 
 \chapter{Umsetzung}
 
-In diesem Kapitel wird detailliert die Umsetzung der in Kapitel~\ref{sec:anforderungen} dargelegten Anforderungen an die Software beschrieben. Hierbei werden auch verschiedene andere m"ogliche Umsetzungen vorgestellt und erkl"art warum diese nicht zum Einsatz gekommen sind.
+In diesem Kapitel wird detailliert die Umsetzung der in Kapitel~\ref{sec:anforderungen} dargelegten Anforderungen an die Software beschrieben. Hierbei werden auch verschiedene andere mögliche Umsetzungen vorgestellt und erklärt, warum diese nicht zum Einsatz gekommen sind.
 
 Wichtig ist hierbei auch der letzte Punkt der Lizenzierung, da diese konform zu der Lizenz des verwendeten Frameworks "`ASM"' sein musste.
 
 \section{Konsolen Interface}
 \label{sec:console}
 
-Bei der Realisierung des Konsolen Interface war besonders die intuitive Benutzbarkeit und "Ubersichtlichkeit wichtig. Sowohl bei der Wahl der Parameter f"ur die Ausf"uhrung, als auch bei der erzeugten Ausgabe.
+Bei der Realisierung des Konsolen-Interface war besonders die intuitive Benutzbarkeit und Übersichtlichkeit wichtig. Sowohl bei der Wahl der Parameter für die Ausführung, als auch bei der erzeugten Ausgabe.
 
 \subsection{Parameter basiert}
 
-Das intuitivste Bedienkonzept f"ur eine Konsolen-Anwendung ist der Aufruf mit Parametern. Durch diese werden alle Optionen gesetzt und das Programm ben"otigt keine Interaktion w"ahrend der Ausf"uhrung. Der Nachteil ist allerdings ganz offensichtlich: Der Nutzer muss zum starten des Programms zuerst die Liste der verf"ugbaren Parameter und deren Bedeutung kennen. Zudem k"onnen Aufrufe sehr schnell sehr lang werden, was die "Ubersichtlichkeit einschr"ankt.
+Das intuitivste Bedienkonzept für eine Konsolen-Anwendung ist der Aufruf mit Parametern. Durch diese werden alle Optionen gesetzt und das Programm benötigt keine Interaktion während der Ausführung. Der Nachteil ist allerdings ganz offensichtlich: Der Nutzer muss zum Starten des Programms zuerst die Liste der verfügbaren Parametern und deren Bedeutung kennen. Zudem können Aufrufe sehr schnell sehr lang werden, was die Übersichtlichkeit einschränkt.
 
-Trotz dieser Nachteile ist die M"oglichkeit eines parametrisierten Aufrufs unverzichtbar f"ur eine Programm mit ausschlie"slich textueller Oberfl"ache. F"ur die Implementierung existieren in Java einige Bibliotheken und Framerworks, wie Beispielsweise:
+Trotz dieser Nachteile ist die Möglichkeit eines parametrisierten Aufrufs unverzichtbar für ein Programm mit ausschließlich textueller Oberfläche. Für die Implementierung existieren in Java einige Bibliotheken und Frameworks, wie beispielsweise:
 \begin{itemize}
 	\item Commons CLI
 	\item Java Gems
@@ -25,52 +25,52 @@ Trotz dieser Nachteile ist die M"oglichkeit eines parametrisierten Aufrufs unver
 	\item JCommando
 \end{itemize}
 
-Allerdings haben alle den Nachteil, das sie nur "`"ubliche"' Formate unterst"utzen. F"ur besondere Parameterformate muss eine eigene verarbeiten erfolgen, welche auch zus"atzlich den Vorteil bietet, dass somit keine weiteren Abh"angigkeiten der Software geschaffen werden.
+Allerdings haben alle den Nachteil, dass sie nur "`übliche"' Formate unterstützen. Für besondere Parameterformate muss eine eigene Verarbeitung erfolgen, welche auch zusätzlich den Vorteil bietet, dass somit keine weiteren Abhängigkeiten der Software geschaffen werden.
 
-Die eigene Implementierung dieser Parameterverarbeitung erfolgt Schleifen-basiert. "Uber einen if-else-Baum wird jeder einzelne Parameter verarbeitet. Da sich die Verarbeitung im Variablenkontext der Schleife befindet, kann diese die Parameterliste durchsuchen und, wenn ben"otigt, beliebig viele weitere Parameter, die als Argumente dienen, verwenden. Auch die Abbruchbedingung f"ur das verarbeiten von Parametern kann frei gew"ahlt werden. So k"onnte Beispielsweise eine End-Option eingef"uhrt werden, welche das verarbeiten der Parameter beendet und die verbleibenden an das Haupt-Programm weiter leitet. In der Gew"ahlten Implementierung bricht die Verarbeitung ab sobald ein Parameter gefunden wird der nicht mit einem '-' beginnt. Dieser wird als Identifikator f"ur das zu ladende Hauptprogramm interpretiert. Sollten weitere Parameter vorhanden sein werden diese als \code{args} weitergegeben. Somit ist eine klare Trennung der zu verarbeitenden und der weiter zu gebenden Parametern vorhanden.
+Die eigene Implementierung dieser Parameterverarbeitung erfolgt schleifenbasiert. Über einen if-else-Baum wird jeder einzelne Parameter verarbeitet. Da sich die Verarbeitung im Variablenkontext der Schleife befindet, kann diese die Parameterliste durchsuchen und - wenn benötigt - beliebig viele weitere Parameter, die als Argumente dienen, verwenden. Auch die Abbruchbedingung für das Verarbeiten von Parametern kann frei gewählt werden. So könnte beispielsweise eine End-Option eingeführt werden, welche das Verarbeiten der Parameter beendet und die verbleibenden an das Haupt-Programm weiterleitet. In der gewählten Implementierung bricht die Verarbeitung ab, sobald ein Parameter gefunden wird, der nicht mit einem '-' beginnt. Dieser wird als Identifikator für das zu ladende Hauptprogramm interpretiert. Sollten weitere Parameter vorhanden sein, werden diese als \code{args} weitergegeben. Somit ist eine klare Trennung der zu verarbeitenden und der weiterzugebenden Parametern vorhanden.
 
-F"ur die gesamte Implementierung gilt das bei invaliden Parameter-Kombinationen oder fehlenden Parametern eine entsprechende Fehlermeldung ausgegeben wird, gefolgt von der Hilfe wie in Listing~\ref{code:usage} dargestellt und das Programm dann mit einem Fehlercode abbricht. Alle Fehlercodes sind als Konstanten deklariert um eine Nachvollziehbarkeit von Code zu Ursache zu erzeugen.
+Für die gesamte Implementierung gilt, dass bei invaliden Parameter-Kombinationen oder fehlenden Parametern eine entsprechende Fehlermeldung ausgegeben wird, gefolgt von der Hilfe wie in Listing~\ref{code:usage} dargestellt und dass das Programm dann mit einem Fehlercode abbricht. Alle Fehlercodes sind als Konstanten deklariert um eine Nachvollziehbarkeit von Code zu Ursache zu erzeugen.
 
 \lstinputlisting[label=code:usage,caption=Hilfe Ausgabe mit Parametererkl\"arung]{umsetzung/usage.txt} 
 
 \subsection{Zusätzliche Bedienkonzepte}
 
-Weitere m"ogliche Bedienkonzepte sind ein navigierbares Men"u und ein interaktiver Modus.
+Weitere mögliche Bedienkonzepte sind ein navigierbares Menü und ein interaktiver Modus.
 
-Bei dem navigierbaren Men"u k"onnte man dann mit Hilfe der einzelnen Optionen eine Konfiguration erstellen, diese potenziell abspeichern und damit starten. Dieses Konzept ist besonders f"ur komplexe Einstellungen geeignet, da es die M"oglichkeit bietet, in einer "ubersichtlichen Form eine reihe von Optionen zu w"ahlen. Dies kommt jedoch mit dem Nachteil, das selbst einfache Konfigurationen vergleichsweise lange zum erstellen ben"otigen. Zudem ist ein Men"u in der Implementierung aufw"andig.
+Bei dem navigierbaren Menü könnte man dann mit Hilfe der einzelnen Optionen eine Konfiguration erstellen, diese potenziell abspeichern und damit starten. Dieses Konzept ist besonders für komplexe Einstellungen geeignet, da es die Möglichkeit bietet, in einer übersichtlichen Form eine Reihe von Optionen zu wählen. Dies führt jedoch zu dem Nachteil, dass selbst einfache Konfigurationen vergleichsweise lange zum erstellen benötigen. Zudem ist ein Menü in der Implementierung aufwändig.
 
-Ein interaktiver Modus hingegen ist die Einsteiger freundlichste Methode. Hierbei wird durch eine Reihe von Fragen der User nach dem gew"unschten Einstellungen gefragt, in einer geordneten Reihenfolge und mit der M"oglichkeit f"ur ausf"uhrlichere Erkl"arungen der Option. Auch hier ist ein klarer Nachteil das einfache Konfigurationen, im Vergleich zu einem Parametrisierten-Start, l"anger zum starten ben"otigen. Der gro"se Vorteil ist jedoch, das auch unerfahrene Nutzer direkt die Software benutzen k"onnen. Die definierte Reihenfolge und das pr"ufen von Eingaben sorgen daf"ur, das Konfigurationen immer Valide sind.
+Ein interaktiver Modus hingegen ist die einsteigerfreundlichste Methode. Hierbei wird durch eine Reihe von Fragen der User nach den gewünschten Einstellungen gefragt, in einer geordneten Reihenfolge und mit der Möglichkeit für ausführlichere Erklärungen der Option. Auch hier ist ein klarer Nachteil, dass einfache Konfigurationen, im Vergleich zu einem Parametrisierten-Start, länger zum Starten benötigen. Der große Vorteil ist jedoch, dass auch unerfahrene Nutzer direkt die Software benutzen können. Die definierte Reihenfolge und das prüfen von Eingaben sorgen dafür, dass Konfigurationen immer valide sind.
 
-Aufgrund der Zielgruppe der Anwendung, Programmiereinsteigern mit einfachen Programmen, ist eine einfache Benutzung wichtiger als die M"oglichkeit komplexe Konfigurationen zu erstellen. Das daf"ur passendere Konzept ist der interaktive Modus.
+Aufgrund der Zielgruppe der Anwendung, nämlich Programmiereinsteigern mit einfachen Programmen, ist eine einfache Benutzung wichtiger als die Möglichkeit, komplexe Konfigurationen zu erstellen. Das dafür passendere Konzept ist der interaktive Modus.
 
 \subsection{Interaktiver Modus}
 
-Bei der Umsetzung des interaktiven Modus m"ussen eine Vielzahl von Fragen mit validierten antworten an den User gestellt werden. Damit eine invalide Antwort nicht zum Abbruch des Programmes f"uhrt, m"ussen alle Fragen wiederholt werden k"onnen bis eine g"ultige Antwort gegeben wird. Dies l"asst sich am einfachsten "uber eine Reihe von Schleifen realisieren, welche jeweils lediglich die Frage ausgeben und auf Antwort warten, bis diese g"ultig ist. Um eine bessere Lesbarkeit zu erreichen werden einfach Ja/Nein-Fragen mithilfe einer Hilfsmethode durchgef"uhrt, welche die Validierung "ubernimmt und die Antwort direkt als boolean liefert. Somit muss nur die Validierung von Fragen mit spezifischen Antwortm"oglichkeiten, wie einer Auswahl oder einem definierten Format, in der Methode durchgef"uhrt werden.
+Bei der Umsetzung des interaktiven Modus müssen eine Vielzahl von Fragen mit validierten Antworten an den User gestellt werden. Damit eine invalide Antwort nicht zum Abbruch des Programmes führt, müssen alle Fragen so lange wiederholt werden können, bis eine gültige Antwort gegeben wird. Dies lässt sich am einfachsten über eine Reihe von Schleifen realisieren, welche jeweils lediglich die Frage ausgeben und auf Antwort warten, bis diese gültig ist. Um eine bessere Lesbarkeit zu erreichen werden einfach Ja/Nein-Fragen mittels einer Hilfsmethode durchgeführt, welche die Validierung übernimmt und die Antwort direkt als boolean liefert. Somit muss nur die Validierung von Fragen mit spezifischen Antwortmöglichkeiten, wie einer Auswahl oder einem definierten Format, in der Methode durchgeführt werden.
 
-Diese Implementierung ist "au"serst rudiment"ar und kann mit steigender Komplexit"at und Anzahl an Parametern schnell un"ubersichtlich werden, jedoch f"ur den aktuellen Umfang noch ausreichend.
-Bei zuk"unftigen Erweiterungen sollte aber eine Abstraktion der Optionen in Betracht gezogen werden, welche dann von jedem Interface zur Darstellung genutzt wird. Dies w"urde Definition und Verarbeitung sauber trennen und Fehlerquellen minimieren.
+Diese Implementierung ist äußerst rudimentär und kann mit steigender Komplexität und Anzahl an Parametern schnell unübersichtlich werden, jedoch für den aktuellen Umfang noch ausreichend.
+Bei zukünftigen Erweiterungen sollte aber eine Abstraktion der Optionen in Betracht gezogen werden, welche dann von jedem Interface zur Darstellung genutzt wird. Dies würde Definition und Verarbeitung sauber trennen und Fehlerquellen minimieren.
 
 \section{Individueller Class-Loader}
 
-Um Bytecode manipulieren zu können, muss die jeweilige Klasse über einen selbst erstellten Class-Loader geladen werden. Dieser hat die Möglichkeit nach dem laden der Binärdaten von der Festplatte und vor dem zurückgeben an die \ac{VM} diese zu verändern. Somit sind jegliche Änderungen am Code, die nur die geladene Klasse betreffen, einfach zu realisieren.
+Um Bytecode manipulieren zu können, muss die jeweilige Klasse über einen selbst erstellten Class-Loader geladen werden. Dieser hat die Möglichkeit, nach dem Laden der Binärdaten von der Festplatte und vor dem Zurückgeben an die \ac{VM} diese zu verändern. Somit sind jegliche Änderungen am Code, die nur die geladene Klasse betreffen, einfach zu realisieren.
 
-Zum erstellen eines eigenen Class-Loaders muss die Java-Klasse \code{ClassLoader} des \code{java.lang} Pakets erweitert werden. Je nach Aufgabe der eigenen Implementierung können nun verschiedene Methoden überschrieben werden. Beispielsweise könnte man hier ein eigenes Caching implementieren, wozu lediglich die \code{loadClass} Methode überschrieben werden muss. Eine andere Anwendung wäre das laden von Klassen aus anderen Quellen, wie beispielsweise von einer Netzwerkressource. Bei der vorhandenen Implementierung musste sowohl \code{loadClass} als auch \code{findClass} überschrieben werden.
+Zum Erstellen eines eigenen Class-Loaders muss die Java-Klasse \code{ClassLoader} des \code{java.lang} Pakets erweitert werden. Je nach Aufgabe der eigenen Implementierung können nun verschiedene Methoden überschrieben werden. Beispielsweise könnte man hier ein eigenes Caching implementieren, wozu lediglich die \code{loadClass} Methode überschrieben werden muss. Eine andere Anwendung wäre das Laden von Klassen aus anderen Quellen, wie beispielsweise von einer Netzwerkressource. Bei der vorhandenen Implementierung musste sowohl \code{loadClass} als auch \code{findClass} überschrieben werden.
 
-Um dynamisch konfigurierbar zu sein, benötigt der erstellte Class-Loader eine reihe von Parametern:
+Um dynamisch konfigurierbar zu sein, benötigt der erstellte Class-Loader eine Reihe von Parametern:
 
 \lstinputlisting[language=Java,label=code:transParam,caption=Parameter des individuellen Class-Loader]{umsetzung/transformerParams.java}
 
-Die als \code{tranformers} übergebene Liste an Klassen, sind die für jeden Ladevorgang erstellten Event-Listener, welche die eigentliche Transformation durchführen. \code{filterType}, \code{filter} und \code{defaultLineSpec} spezifizieren, welche Klassen modifiziert werden sollen und welcher Zeilen-Bereich. Wird bei einem Filter keine Zeilen-Spezifikation mit gegeben sondern \code{null}, so wird der übergebene Standartwert verwendet.
+Die als \code{tranformers} übergebene Liste an Klassen sind die für jeden Ladevorgang erstellten Event-Listener, welche die eigentliche Transformation durchführen. \code{filterType}, \code{filter} und \code{defaultLineSpec} spezifizieren, welche Klassen modifiziert werden sollen und welcher Zeilenbereich. Wird bei einem Filter keine Zeilenspezifikation mitgegeben sondern \code{null}, so wird der übergebene Standartwert verwendet.
 
-Die Methode \code{loadClass} ist dafür zuständig zu evaluieren, ob die angefragte Klasse modifiziert werden soll. Wenn bereits eine gecachte Version der Klasse vorliegen, so kann diese direkt zurück gegeben werden. Ist dies nicht der Fall, muss geprüft werden, ob die Klasse überhaupt modifiziert werden soll. Dies wird über eine Hilfsmethode geprüft, welche basierend auf dem gewählten Filtertyp und Filter in Kombination mit dem Namen der zu ladenden Klasse auswertet, ob diese Klasse zu manipuliert ist. Zu modifizierende Klassen werden mit Hilfe der \code{findClass}-Methode geladen, alle anderen mit Hilfe der Standard-Implementierung.
+Die Methode \code{loadClass} ist dafür zuständig zu evaluieren, ob die angefragte Klasse modifiziert werden soll. Wenn bereits eine gecachte Version der Klasse vorliegt, so kann diese direkt zurückgegeben werden. Ist dies nicht der Fall, muss geprüft werden, ob die Klasse überhaupt modifiziert werden soll. Dies wird über eine Hilfsmethode geprüft, welche basierend auf dem gewählten Filtertyp und Filter in Kombination mit dem Namen der zu ladenden Klasse auswertet, ob diese Klasse zu manipuliert ist. Zu modifizierende Klassen werden mit Hilfe der \code{findClass}-Methode geladen, alle anderen mit Hilfe der Standard-Implementierung.
 
-Die andere überschriebene Methode, \code{findClass}, wiederum ist für das finden, laden und modifizieren der Binärdaten verantwortlich. Dazu wird zunächst der Name der Klasse zu einem relativen Dateipfad gewandelt. Dies geschieht durch das ersetzen der Punkte, welche Pakete trennen, mit den Datei-Trennzeichen des jeweiligen Systems. Zusätzlich wird die typische Dateiendung "`.class"' angehängt. Sollte die Methode \code{getResourceAsStream} des normalen Class-Loaders diesen finden, so werden damit die Daten geladen. Ist dies nicht möglich, so wird der Pfad als FileInputStream geöffnet. Hier würde sich auch einfach das Programm erweitern lassen, um eine reihe verschiedener Pfade zu durchsuchen, oder in einem definierten (Unter)-Ordner nach Klassen zu suchen.
+Die andere überschriebene Methode, \code{findClass}, wiederum ist für das Finden, Laden und Modifizieren der Binärdaten verantwortlich. Dazu wird zunächst der Name der Klasse zu einem relativen Dateipfad gewandelt. Dies geschieht durch das ersetzen der Punkte, welche Pakete trennen, mit den Datei-Trennzeichen des jeweiligen Systems. Zusätzlich wird die typische Dateiendung "`.class"' angehängt. Sollte die Methode \code{getResourceAsStream} des normalen Class-Loaders diesen finden, so werden damit die Daten geladen. Ist dies nicht möglich, so wird der Pfad als FileInputStream geöffnet. Hier würde sich auch einfach das Programm erweitern lassen, um eine Reihe verschiedener Pfade zu durchsuchen, oder in einem definierten (Unter)-Ordner nach Klassen zu suchen.
 
-Mit den fertig geladenen, unveränderten Klasse muss nun die ASM Event-Kette aufgebaut werden. Dies erfolgt in der umgekehrten Reihenfolge wie die Events weiter gegeben werden. Zuerst muss der \code{ClassWriter}, welche aus den Events wieder ein Byte-Array erzeugen kann, erstellt werden. Dann wird der Tranformer (siehe \ref{sec:trans}) hinzugefügt, welcher seine Events an den Writer weiter geben wird. Außerdem werden sämtliche Event-Listener für ihn erstellt und die passende Line-Specification weiter gegeben. Schlussendlich wird, mithilfe der Bytes der unveränderten Klasse, ein \code{ClassReader} erstellt, welcher diese einliest und als folge von Events an den Tranformer weiter gibt.
+Mit der fertig geladenen, unveränderten Klasse muss nun die ASM Event-Kette aufgebaut werden. Dies erfolgt in der umgekehrten Reihenfolge wie die Events weiter gegeben werden. Zuerst muss der \code{ClassWriter}, welche aus den Events wieder ein Byte-Array erzeugen kann, erstellt werden. Dann wird der Tranformer (siehe \ref{sec:trans}) hinzugefügt, welcher seine Events an den Writer weitergeben wird. Außerdem werden sämtliche Event-Listener für ihn erstellt und die passende Line-Specification weitergegeben. Schlussendlich wird, mithilfe der Bytes der unveränderten Klasse, ein \code{ClassReader} erstellt, welcher diese einliest und als Folge von Events an den Tranformer weitergibt.
 
-Zu dieser 3-Knoten Struktur lässt sich auch ein weiterer, 4. Knoten zwischen Tranformer und Writer einbauen, welche die erzeugten Bytecode-Befehle ausgibt. Dies ist hauptsächlich bei der Entwicklung neuer Transformation-Event-Listenern und der Weiterentwicklung des Tranformers hilfreich, wenn der erzeugte Code von der \ac{JVM} nicht ausführbar ist oder funktional nicht das erwünschte Ergebnis liefert. Durch die Position in der Event-Chain kann dieser den erzeugten Code ausgeben bevor er ausgeführt wird und es zu Problemen kommen könnte.
+Zu dieser 3-Knoten Struktur lässt sich auch ein weiterer, 4. Knoten zwischen Tranformer und Writer einbauen, welcher die erzeugten Bytecode-Befehle ausgibt. Dies ist hauptsächlich bei der Entwicklung neuer Transformation-Event-Listenern und der Weiterentwicklung des Tranformers hilfreich, wenn der erzeugte Code von der \ac{JVM} nicht ausführbar ist oder funktional nicht das erwünschte Ergebnis liefert. Durch die Position in der Event-Chain kann dieser den erzeugten Code ausgeben bevor er ausgeführt wird und es zu Problemen kommen könnte.
 
-Alternativ zu zum erstellen eines eigenen Class-Loaders welcher veränderten Bytecode lädt, lässt sich in Java auch ein sogenannter "`Agent"' registrieren. Dieser muss beim Aufruf der \ac{JVM} mit dem Parameter "`-javaagent"' spezifiziert werden. Ein solcher Agent wird dann nach dem laden einer Klasse aufgerufen und hat die Möglichkeit die geladenen Bytes nach belieben zu verändern. Somit ist die Manipulationen sauber getrennt vom laden der Klassen und eine bessere Kompatibilität mit anderen Programmen gewährleistet. Der große Nachteil ist hier jedoch, das die Übergabe von Parametern an den Agent sehr umständlich ist. Es kann lediglich ein einzelner String übergeben werden, der dann vom Agenten getrennt und verarbeitet werden muss. \cite{agent_arg_stack} Ein Beispielhafter Aufruf mit einem Agenten ist in Listing~\ref{code:agentCall} dargestellt.
+Alternativ zum Erstellen eines eigenen Class-Loaders, welcher veränderten Bytecode lädt, lässt sich in Java auch ein sogenannter "`Agent"' registrieren. Dieser muss beim Aufruf der \ac{JVM} mit dem Parameter "`-javaagent"' spezifiziert werden. Ein solcher Agent wird dann nach dem Laden einer Klasse aufgerufen und hat die Möglichkeit, die geladenen Bytes nach Belieben zu verändern. Somit ist die Manipulation sauber getrennt vom Laden der Klassen und eine bessere Kompatibilität mit anderen Programmen ist gewährleistet. Der große Nachteil ist hier jedoch, das die Übergabe von Parametern an den Agent sehr umständlich ist. Es kann lediglich ein einzelner String übergeben werden, der dann vom Agenten getrennt und verarbeitet werden muss. \cite{agent_arg_stack} Ein beispielhafter Aufruf mit einem Agenten ist in Listing~\ref{code:agentCall} dargestellt.
 
 \lstinputlisting[label=code:agentCall,caption=Beispiel Aufruf mit einem Agent]{umsetzung/agentCall.txt} 
 
@@ -81,61 +81,61 @@ Die Parameterübergabe würde sich mit Hilfe eines Batch/Shell-Scripts in einem 
 
 Der Transformer stellt das Herzstück der Anwendung dar. Er führt alle Änderungen am Bytecode aus die erwünscht sind. Dies passiert über eine Event Struktur, um eine modulare Erweiterbarkeit zu erreichen und beim Aufruf eine Auswahl treffen zu können, welche Features aktiv sein sollen.
 
-Eine andere Möglichkeit wäre, die Module direkt in die Event-Chain zu integrieren. Dies hat jedoch den großen Nachteil, das einzelne Module keinerlei Information über die Aktivität anderer Module erhalten können. Ein weiterer Nachteil ist, das dabei viel duplizierter Code entstehen würde, Aktionen wie das durchlaufen der Instruction-Nodes in einer Schleife müssten von jedem Modul neu realisiert werden. Auch andere Funktionalitäten, wie das verwalten einer Übersicht der im momentanen Kontext verfügbaren Variablen, wäre eine Aufgabe die jedes Modul erneut implementieren müsste.
+Eine andere Möglichkeit wäre, die Module direkt in die Event-Chain zu integrieren. Dies hat jedoch den großen Nachteil, dass einzelne Module keinerlei Information über die Aktivität anderer Module erhalten können. Ein weiterer Nachteil ist, dass dabei viel duplizierter Code entstehen würde. Aktionen wie das Durchlaufen der Instruction-Nodes in einer Schleife müssten von jedem Modul neu realisiert werden. Auch andere Funktionalitäten, wie das Verwalten einer Übersicht der im momentanen Kontext verfügbaren Variablen, wäre eine Aufgabe, die jedes Modul erneut implementieren müsste.
 
-Vorteil einer Integration der Module direkt in die Event-Chain wäre eine einfachere Struktur und weniger Hilfsklassen. Die zusätzlich geschaffene Abstraktion durch den Tranformer wäre damit überflüssig und mit ihr alle dafür benötigten Komponenten. Dies würde den Code übersichtlicher und schneller verständlich machen, da man nur die Event-Struktur von ASM verstehen müsste, nicht eine weitere Projekt-spezifische.
+Vorteil einer Integration der Module direkt in die Event-Chain wäre eine einfachere Struktur und weniger Hilfsklassen. Die zusätzlich geschaffene Abstraktion durch den Transformer wäre damit überflüssig und mit ihr alle dafür benötigten Komponenten. Dies würde den Code übersichtlicher und schneller verständlich machen, da man nur die Event-Struktur von ASM verstehen müsste, nicht eine weitere projektspezifische.
 
-Jedoch können die Vorteile der Verwendung lediglich einer Struktur, bei weitem nicht die Nachteile dieser ausgleichen, weshalb der Tranformer implementiert wurde.
+Jedoch können die Vorteile der Verwendung lediglich einer Struktur bei weitem nicht die Nachteile dieser ausgleichen, weshalb der Transformer implementiert wurde.
 
-Er hält alle Informationen über den momentanen Punkt der Transformation auf die andere Klassen zugreifen können. Zu den Daten die er verwaltet gehören:
+Er hält alle Informationen über den momentanen Punkt der Transformation, auf die andere Klassen zugreifen können. Zu den Daten, die er verwaltet, gehören:
 
 \begin{itemize}
 	\item Name der Klasse
 	\item Name der Methode
 	\item Zeile im Original-Code
 	\item Eine Liste der momentan verfügbaren Variablen
-	\item Eine Liste der Variablen welche noch in der aktuellen Methode deklariert werden
+	\item Eine Liste der Variablen, welche noch in der aktuellen Methode deklariert werden
 \end{itemize}
 
-Zusätzlich bietet er eine Methode zum einfügen von Text-Ausgaben. Diese benötigt lediglich den Anweisungs-Knoten, nach dem die Ausgabe erfolgen soll, und ein Anweisungs-Liste die einen geöffneten String-Builder Text hinzufügt. Ausgaben beginnen immer mit einer Angabe der momentanen Position im Code, um eine hohe Nachvollziehbarkeit des Ablaufs zu erreichen.
+Zusätzlich bietet er eine Methode zum Einfügen von Text-Ausgaben. Diese benötigt lediglich den Anweisungs-Knoten, nach dem die Ausgabe erfolgen soll, sowie eine Anweisungs-Liste, die einen geöffneten String-Builder Text hinzufügt. Ausgaben beginnen immer mit einer Angabe der momentanen Position im Code, um eine hohe Nachvollziehbarkeit des Ablaufs zu erreichen.
 
 Alle anderen öffentlichen Methoden des Transformers dienen zur Konfiguration oder sind Teil der \code{ClassNode}-Klasse, welche für Elemente der ASM Event-Chain benötigt werden. Die beiden privaten Methoden sind Hilfsmethoden von \code{visitEnd}.
 
 \subsection{Event Struktur} 
 
-Die Entscheidung für eine Event basierte Struktur mit beliebig vielen Zuhörern basiert darauf, das eine Entwicklung weiterer Module möglich sein soll. Dies hat zudem den Vorteil, das die Auswahl welche Module bei einer Ausführung aktiviert sein sollen, ganz einfach mit einer Liste an Zuhörern gesteuert wird.
+Die Entscheidung für eine event-basierte Struktur mit beliebig vielen Zuhörern basiert darauf, dass eine Entwicklung weiterer Module möglich sein soll. Dies hat zudem den Vorteil, dass die Auswahl, welche Module bei einer Ausführung aktiviert sein sollen, ganz einfach mit einer Liste an Zuhörern gesteuert wird.
 
-Für diese Struktur stehen 2 verschiedene Modelle zur Auswahl: Ein großes Interface mit einer Methode für jedes Event, ähnlich der ASM Event-Chain, oder ein Interface mit lediglich einer Methode, welches unterschiedliche Implementierungen eines Event-Interface empfängt. Die zweite Variante ist bei Java-Swing verbreitet, beispielsweise als \code{ActionEventListener}.
+Für diese Struktur stehen 2 verschiedene Modelle zur Auswahl: Ein großes Interface mit einer Methode für jedes Event, ähnlich der ASM Event-Chain, oder ein Interface mit lediglich einer Methode, welche unterschiedliche Implementierungen eines Event-Interface empfängt. Die zweite Variante ist bei Java-Swing verbreitet, beispielsweise als \code{ActionEventListener}.
 
 Beide Varianten haben Vor- und Nachteile.
-Ein großes Interface hat eine klar definierte Struktur mit einer Reihe von Parametern pro Methode die völlig individuell für jedes Event gewählt werden können. Dies birgt jedoch gleichzeitig den Nachteil, das Klassen, die nicht auf alle Events reagieren wollen, trotzdem leere Methoden für diese implementieren müssen. Auch ist die Struktur sehr statisch und ungeeignet für Veränderung, da bei einer Änderung des Interface auch immer alle Implementierungen aktualisiert werden müssen. Eine Möglichkeit leere Methoden zu vermeiden und Erweiterungen einfacher zu machen sind Adapter. Dies sind Klassen, welche alle Methoden leer implementieren. Der Nachteil dabei liegt jedoch darin, das Listener diese Erweitern müssen und nicht nur implementieren, was die Einsatzmöglichkeiten Einschränkt.
-Ganz im Gegenteil dazu ist einer der größten Vorteile eines Interface mit nur einer Methode, dass Erweiterungen keinen Einfluss auf vorhandene Implementierungen haben. Neu erstellte Event-Klassen werden nicht verarbeitet von bestehenden Event-Listenern, wodurch ihr verhalten sich nicht ändert, solange diese richtig implementiert sind. Dies zeigt auch, dass lediglich jene Events verarbeitet werden müssen, welche auch benötigt werden. Der Nachteil hierbei liegt jedoch darin, dass jede Methode des großen Interface hier eine eigene Event-Klasse ist. Wenn eine Listener auf alle Events reagieren muss, benötigt er dafür eine große Verzweigung, die auf sämtliche relevanten Event-Typen prüft. Dies führt zu einer erhöhten Code-Komplexität und langsameren Ausführung. Eine Optimierung ist hierbei möglich indem die Events eine Methode bieten um diese zu identifizieren.
+Ein großes Interface hat eine klar definierte Struktur mit einer Reihe von Parametern pro Methode, die völlig individuell für jedes Event gewählt werden können. Dies birgt jedoch gleichzeitig den Nachteil, dass Klassen, die nicht auf alle Events reagieren wollen, trotzdem leere Methoden für diese implementieren müssen. Auch ist die Struktur sehr statisch und ungeeignet für Veränderung, da bei einer Änderung des Interface auch immer alle Implementierungen aktualisiert werden müssen. Eine Möglichkeit, leere Methoden zu vermeiden und Erweiterungen einfacher zu machen, sind Adapter. Dies sind Klassen, welche alle Methoden leer implementieren. Der Nachteil dabei liegt jedoch darin, dass Listener diese erweitern müssen und nicht nur implementieren, was die Einsatzmöglichkeiten einschränkt.
+Ganz im Gegenteil dazu ist einer der größten Vorteile eines Interface mit nur einer Methode, dass Erweiterungen keinen Einfluss auf vorhandene Implementierungen haben. Neu erstellte Event-Klassen werden nicht verarbeitet von bestehenden Event-Listenern, wodurch ihr Verhalten sich nicht ändert, solange diese richtig implementiert sind. Dies zeigt auch, dass lediglich jene Events verarbeitet werden müssen, welche auch benötigt werden. Der Nachteil hierbei liegt jedoch darin, dass jede Methode des großen Interface hier eine eigene Event-Klasse ist. Wenn ein Listener auf alle Events reagieren muss, benötigt er dafür eine große Verzweigung, die auf sämtliche relevanten Event-Typen prüft. Dies führt zu einer erhöhten Code-Komplexität und langsamerer Ausführung. Eine Optimierung ist hierbei möglich, indem die Events eine Methode bieten um diese zu identifizieren.
 
 Aufgrund der auf Erweiterung ausgelegten Architektur und der Annahme, dass die meisten Implementierungen nur auf einen kleinen Teil der Ereignisse reagieren müssen, wurde ein kleines Interface mit verschiedenen Event-Klassen realisiert.
 
-Das Interface für die Events \code{TransformationEvent} definiert zwei Methoden: Eine zum identifizieren um welches Event es sich handelt und eine weitere, welche den abstrakten Knoten liefert auf den das Ereignis bezogen ist. Dadurch kann bei Listenern häufig auf ein Type-Cast verzichtet werden, da diese beiden Informationen für die meisten Anwendungsfälle genügen.
+Das Interface für die Events \code{TransformationEvent} definiert zwei Methoden: Eine zum identifizieren, um welches Event es sich handelt und eine weitere, welche den abstrakten Knoten liefert auf den das Ereignis bezogen ist. Dadurch kann bei Listenern häufig auf ein Type-Cast verzichtet werden, da diese beiden Informationen für die meisten Anwendungsfälle genügen.
 
 \subsection{Erstellte Implementierungen} 
 
-Es wurden zwei Implementierungen des \code{TransformationEventListener} gemacht. Die erste, \code{VariableChangePrinter}, zum ausgeben jeder Änderungen von Klassen-Variablen, Parametern oder lokalen Variablen. Die zweite, \code{LineTracer}, um eine Ausgabe in jeder Zeile zu garantieren, damit der Ablauf ersichtlich ist. Beide sind in ihrer Struktur simpel gehalten. Sie können nur mit einem existierenden Transformer erstellt werden, da sie eine feste bidirektionale Bindung mit diesen initialisieren welche unveränderlich ist.
+Es wurden zwei Implementierungen des \code{TransformationEventListener} gemacht. Die erste, \code{VariableChangePrinter}, zur Ausgabe jeder Änderung von Klassen-Variablen, Parametern oder lokalen Variablen. Die zweite, \code{LineTracer}, um eine Ausgabe in jeder Zeile zu garantieren, damit der Ablauf ersichtlich ist. Beide sind in ihrer Struktur simpel gehalten. Sie können nur mit einem existierenden Transformer erstellt werden, da sie eine feste bidirektionale Bindung mit diesen initialisieren, welche unveränderlich ist.
 
 \textbf{Variable Change Printer}
 
-Für die Ausgabe aller Änderungen an Variablen sind 4 Events relevant: Var-Instruction, Iinc-Instruction, Scope-Reached und Class-Variable-Changed. Die Verarbeitung aller dieser Ereignisse läuft ähnlich ab: Zuerst wird die veränderte Variable aus dem Event-Objekt extrahiert, dann eine Ausgabe des Wertes generiert und diese schlussendlich an den Transformer gegeben um dies nach der Zuweisung ein zu fügen.
+Für die Ausgabe aller Änderungen an Variablen sind vier Events relevant: Var-Instruction, Iinc-Instruction, Scope-Reached und Class-Variable-Changed. Die Verarbeitung aller dieser Ereignisse läuft ähnlich ab: Zuerst wird die veränderte Variable aus dem Event-Objekt extrahiert, dann eine Ausgabe des Wertes generiert und diese schlussendlich an den Transformer gegeben, um dies nach der Zuweisung einzufügen.
 
 Die Generierung der Ausgabe ist dabei eine größere Hilfsmethode. Mit Hilfe einer selbst erstellten Abstraktion der Variablen lassen sich alle Arten gleich verarbeiten. Je nach Typ der Variable werden leicht unterschiedliche Formatierungen gewählt und deren Ausgabe als Bytecode generiert.
 
 \textbf{Line Tracer}
 
-Da der Line Tracer nur eine Ausgabe in einer Zeile machen soll, wenn kein anderer Listener bereits eine Ausgabe hinzugefügt hat, muss dieser nicht nur das Erreichen neuer Zeilen, sondern auch auf das hinzufügen von Ausgaben reagieren. Die hierzu relevanten Events sind: Line-Start, Line-End und Print-Added.
+Da der Line Tracer nur eine Ausgabe in einer Zeile machen soll, wenn kein anderer Listener bereits eine Ausgabe hinzugefügt hat, muss dieser nicht nur auf das Erreichen neuer Zeilen, sondern auch auf das Hinzufügen von Ausgaben reagieren. Die hierzu relevanten Events sind: Line-Start, Line-End und Print-Added.
 
-Die Funktionalität ist wiederum sehr einfach: Mit Hilfe einer Variable wird gespeichert ob in der aktuellen Zeile noch eine Ausgabe gemacht werden muss. Wird das Zeilenende erreicht und dies ist noch nötig, wird am Beginn der Zeile eine leere Ausgabe hinzugefügt. Da Ausgaben immer die Position anzeigen enthält diese Automatisch alle nötigen Informationen.
+Die Funktionalität ist wiederum sehr einfach: Mit Hilfe einer Variablen wird gespeichert, ob in der aktuellen Zeile noch eine Ausgabe gemacht werden muss. Wird das Zeilenende erreicht und dies ist noch nötig, wird am Beginn der Zeile eine leere Ausgabe hinzugefügt. Da Ausgaben immer die Position anzeigen, enthält diese automatisch alle nötigen Informationen.
 
 \section{Lizenzierung} 
 
-Bei der Wahl der Lizenz f"ur die neu entwickelte Software war es wichtig, dass diese Kompatibel zu den Lizenzen der Abh"angigkeiten ist. Da keine externen Bibliotheken verwendet wurden und nur ein Framework benutzt wird musste hier nicht viel beachtet werden.
+Bei der Wahl der Lizenz für die neu entwickelte Software war es wichtig, dass diese kompatibel zu den Lizenzen der Abhängigkeiten ist. Da keine externen Bibliotheken verwendet wurden und nur ein Framework benutzt wird, musste hier nicht viel beachtet werden.
 
-Das benutzte Framework, ASM, steht unter einer nicht benannten Lizenz, die der BSD-Lizenz sehr "ahnlich ist. Der relevante Teil von dieser, welcher sich auf Verwendung und Redistribution bezieht ist folgender:
+Das benutzte Framework, ASM, steht unter einer nicht benannten Lizenz, die der BSD-Lizenz sehr ähnlich ist. Der relevante Teil von dieser, welcher sich auf Verwendung und Redistribution bezieht, ist folgender:
 
 {\itshape
 Redistribution and use in source and binary forms, with or without
@@ -150,9 +150,9 @@ are met:
 }
 \cite{asm_license}
 
-Somit sind die einzigen Einschr"ankungen, dass die Lizenz des Frameworks unver"andert bleiben muss und mit angeh"angt, wenn sie gemeinsam ausgeliefert wird.
+Somit sind die einzigen Einschränkungen, dass die Lizenz des Frameworks unverändert bleiben und mit angehängt werden muss, wenn sie gemeinsam ausgeliefert wird.
 
-Da das Ziel der Arbeit ein Lehrmittel war, welches nicht f"ur kommerzielle Anwendung ausgelegt ist und auch kein Unternehmen hinter der Entwicklung steht, ist eine Open-Source Lizenz für frei Nutzung hier geeignet. Hierf"ur gibt es eine gro"se Auswahl. Zu den verbreitetsten Lizenzen z"ahlen:
+Da das Ziel der Arbeit ein Lehrmittel war, welches nicht für kommerzielle Anwendung ausgelegt ist und auch kein Unternehmen hinter der Entwicklung steht, ist eine Open-Source Lizenz für freie Nutzung hier geeignet. Hierfür gibt es eine große Auswahl. Zu den verbreitetsten Lizenzen zählen:
 
 \begin{itemize}
 	\item \ac{GPL}
@@ -162,13 +162,13 @@ Da das Ziel der Arbeit ein Lehrmittel war, welches nicht f"ur kommerzielle Anwen
 	\item \ac{EUPL}
 \end{itemize}
 
-Alle diese Lizenzen sind sich relativ "ahnlich, haben aber im Detail Unterschiede.
-Bei der \ac{GPL} muss jede Software die unter GPL lizenzierte Teile enth"alt, unabh"angig ob in Originalfassung oder modifiziert, auch unter der \ac{GPL} lizenziert werden, dies nennt sich "`Copyleft"'. \cite{gpl_wiki}
-Die \ac{LGPL} ist hier weniger strikt, lediglich die \ac{LGPL}-Teile der Software m"ussen "offentlich gemacht werden und von Nutzern ersetzbar oder "anderbar sein. \cite{lgpl_wiki}
-Die Apache-Lizenz ist der \ac{LGPL} sehr "ahnlich, jedoch lassen sich hier eigene weitere Urheberrechtsvermerke hinzuf"ugen. \cite{apache_wiki}
-Auch die \ac{BSD}-Lizenz ist dieser sehr "ahnlich, hat jedoch, in ihrer Originalform, eine Werbeklausel, welche in allen Werbematerialien enthalten sein muss. \cite{bsd_wiki}
-Die \ac{EUPL} schlussendlich bietet den gro"sen Vorteil, das sie in allen 22 Amtssprachen der europ"aischen Union verf"ugbar ist und Berücksichtigung des europ"aischen Rechts erstellt wurde. Sie ist kompatibel mit der \ac{GPL}. \cite{eupl_wiki}
+Alle diese Lizenzen sind sich relativ ähnlich, haben aber im Detail Unterschiede.
+Bei der \ac{GPL} muss jede Software, die unter GPL lizenzierte Teile enthält, unabhängig ob in Originalfassung oder modifiziert, auch unter der \ac{GPL} lizenziert werden, dies nennt sich "`Copyleft"'. \cite{gpl_wiki}
+Die \ac{LGPL} ist hier weniger strikt, lediglich die \ac{LGPL}-Teile der Software müssen öffentlich gemacht werden und von Nutzern ersetzbar oder änderbar sein. \cite{lgpl_wiki}
+Die Apache-Lizenz ist der \ac{LGPL} sehr ähnlich, jedoch lassen sich hier eigene weitere Urheberrechtsvermerke hinzufügen. \cite{apache_wiki}
+Auch die \ac{BSD}-Lizenz ist dieser sehr ähnlich, hat jedoch in ihrer Originalform eine Werbeklausel, welche in allen Werbematerialien enthalten sein muss. \cite{bsd_wiki}
+Die \ac{EUPL} schlussendlich bietet den großen Vorteil, dass sie in allen 22 Amtssprachen der Europäischen Union verfügbar ist und unter Berücksichtigung des europäischen Rechts erstellt wurde. Sie ist kompatibel mit der \ac{GPL}. \cite{eupl_wiki}
 
-Die \ac{BSD}-Lizenz scheidet aufgrund ihrer Werbeklausel aus. \ac{LGPL} und Apache-Lizenz sind besser f"ur Bibliotheken und Framworks geeignet die in anderen Projekten eingebunden werden. Somit bleiben \ac{GPL} und \ac{EUPL} als passendste Lizenzen. Im Vergleich hier liefert die Mehrsprachigkeit der \ac{EUPL} sowie die spezifische Berücksichtigung europ"aischen Rechts ein klarer Entscheidung.
+Die \ac{BSD}-Lizenz scheidet aufgrund ihrer Werbeklausel aus. \ac{LGPL} und Apache-Lizenz sind besser für Bibliotheken und Frameworks geeignet, die in anderen Projekten eingebunden werden. Somit bleiben \ac{GPL} und \ac{EUPL} die passendsten Lizenzen. Im Vergleich hier liefert die Mehrsprachigkeit der \ac{EUPL} sowie die spezifische Berücksichtigung europäischen Rechts eine klare Entscheidung.
 
-Als Lizenz wurde somit die \ac{EUPL} verwendet, auf Grund des passenden starken Copylefts und der internationalen G"ultigkeit.
+Als Lizenz wurde somit die \ac{EUPL} verwendet, auf Grund des passenden starken Copylefts und der internationalen Gültigkeit.
