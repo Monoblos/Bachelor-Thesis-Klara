@@ -12,32 +12,38 @@ Im allgemeinen war das Thema eine persönliche Bereicherung, da es viele neue Ei
 
 \section{Erweiterungsmöglichkeiten} 
 
-Umbau der gewrappten Variablen das diese tiefe "Anderungen tracken k"onnen
+Mit der grundlegenden Funktionalität gegeben, sehe ich Potenzial für verschiedene Erweiterungen.
+Wie in Kapitel~\ref{sec:console} bereits beschrieben, wäre eine Menü-Oberfläche für komplexere Konfigurationen denkbar. Somit könnte der Anwender in beliebiger Reihenfolge die Optionen wählen, bis ihm die Konfiguration gefällt. Die Menüpunkte selbst könnten dann Werte ähnlich erfragen wie es beim interaktiven Modus implementiert ist.
+Mit der Möglichkeit aufwendige Konfigurationen in einem Menü zu erstellen, sollte auch ein Option zum Speichern dieser Konfiguration implementiert werden. Ein besonders einfaches Format hierfür, wäre die Parameterliste wie sie auch direkt übergeben werden kann. Wenn diese zu groß wird, oder weitere Optionen hinzu kommen, die nur über das Menü verfügbar sind, sollte eine XML oder JSON-Struktur verwendet werden.
+Da das Menü eine 3. Oberfläche darstellen würde, welche die gleichen Optionen bieten soll, wäre eine Abstraktion der Parameter sinnvoll. So könnten alle Informationen zu einer Option in einem Format gebündelt werden, das alle Oberflächen benutzen können. Somit sollten alle Informationen, von dem Argumentname als Übergabeparameter bis hin zu Wert-Validierung, enthalten sein. Dies würde sicher stellen, das die gleiche Funktionalität über alle Oberflächen erreichbar ist und Code-Duplikation vermeiden.
 
-Ausgabe des Branchings anstelle Zeilen (-b)
+Eine zusätzliche denkbare Option ist ein gröberes Branching zu untersuchen, als alternative zu Ausgabe jeder Zeile. Ausgegeben würde in diesem Fall beispielsweise nur, das eine Schleife 17 Durchläufe hatte, oder ein Switch-case zu Fall 3 gesprungen ist.
+Dies würde bei größeren Abläufen die Übersichtlichkeit erhöhen, besonders wenn lange laufenden Schleifen vorhanden sind.
 
-Invisible Asserts (Fehler-case definieren und passend konfigurieren)
+Weitere kleinere mögliche Verbesserungen sind ein Ant-Plugin und Support für das debuggen von jar-Archiven. Ein Ant-Plugin könnte als Integration in eine beliebige Entwicklungsumgebung genutzt werden. Jar-Archive können momentan noch nicht untersucht werden, lediglich .class-Dateien.
+\todo{Check jar support}
 
-Auto-Detect of relevant classes (Not just the class containing main)
+Des weiteren habe ich Ideen für 5 große Erweiterungen:
 
-Support for jars?
+Unsichtbare Überprüfungen, welche in einer Konfiguration definiert werden. Diese funktionieren ähnlich wie eine "`assert"'-Anweisung, sind aber nicht Teil des Codes. Dies ist Syntaktisch besser, da sie lediglich Tests darstellen und nicht zum Programm gehören. Somit bleibt der Code übersichtlicher und die Ausführung wird nur dann verlangsamt wenn die Überprüfungen auch ausgeführt werden sollen.
 
-Men"u zum konfigurieren, "ahnlich interactive, siehe \ref{sec:console}
+Automatisches erkennen der relevanten Klassen. Wenn eine Klasse \code{some.package.Foo} untersucht werden soll, gilt selbiges wahrscheinlich für andere Klassen im Paket \code{some.package}. Hier könnte eine Reihe von logischen Abhängigkeiten gebildet werden, um das manuelle setzten von Filtern nahezu überflüssig zu machen.
 
-Speichern von Konfigurationen erstellt mit Men"u zum einfachen wiederholen von Debug-vorg"angen.
+Ähnlich dazu, könnten verwendete Typen modifiziert werden, um Änderungen an den gekapselten Variablen zu erkennen. Hierbei könnte auch eine Prüfung des Stacktrace eingebaut werden, welche nur in bestimmten Fällen Ausgaben erzeugt. Damit wäre auch erkennbar, wenn ein gespeicherter Punkt nicht ersetzt wird, sondern lediglich die Koordinaten sich ändern.
 
-Parameterabstraktion die f"ur alle UI's benutzbar ist (Buchstabe, Frage, Menüposition und Label, Wert-Validierung)
+Erzeugen eines maschinell lesbaren Trace, anstelle eines menschlich lesbaren. Dieser könnte viel performanter erzeugt werden als es beispielsweise bei Python Tutor der Fall ist, da keine Pausierung der \ac{VM} stattfindet. Ein anderes Programm könnte diesen dann in einem für Entwickler geeigneten Format visualisieren.
 
-Ant-Plugin zum Aufruf
+Logging mit bekannten Frameworks wie Log4j erzeugen und die Ergebnisse speichern. Solche veränderten Klassen könnten auf Server zum Einsatz kommen, um bei Problemen Logging mittels des Frameworks zu aktivieren ohne etwas am Code oder Server-Setup ändern zu müssen. Da Server auf Grund der Anforderungen an Antwortzeiten und häufigen Komplexität der Umgebung nicht einfach zu debuggen sind, wäre dies eine schnellere alternative.
 
 \section{Weitere Anwendungsbereiche} 
 
-Heavy Obfuscation after compile (goto and stuff)
+Zusätzlich zu möglichen Erweiterungen der bestehenden Anwendung sehe ich auch Potenzial für andere Anwendungsgebiete der Technologie. Bei allen ausgeführten Änderungen am Bytecode wurde bisher kein Konstrukt erzeugt, was nicht auch durch Änderung des Sourcecodes möglich gewesen wäre. Hier bieten sich jedoch neue Möglichkeiten.
 
-Invisible Code generators
+Obfuscation beschreibt das verändern des Codes in solcher weiße, das der originale Code nur noch sehr schwer oder in keiner weiße wiederherstellbar ist. Dies kommt besonders bei kommerzieller Software zum Einsatz, wenn das Kompilat der Sprache Rückschlüsse auf den Code geben kann. Dies ist unter anderem bei allen Sprachen die Bytecode verwenden der Fall.
+Hier könnte mit ASM das übersetzte Programm stark umgebaut werden ohne die eigentliche Funktionalität zu ändern. Mit Hilfe von Sprüngen quer durch den Code und dem potenziellen kleinen Veränderungen der Aufruf-Struktur sollten herkömmliche Decompiler nicht mehr in der Lage sein sinnvollen Code daraus zu erzeugen. Allerdings muss dabei stark darauf geachtet werden die Funktionalität wirklich nicht ein zu schränken und der Speicher verbraucht sowie die Laufzeit ändern sich wahrscheinlich.
 
-"`Makro"' calls (Replace "`method"' class with specific code)
+Eine der Veränderungen die hierbei durchgeführt werden können, aber die Laufzeit potenziell verbessern, sind "`Makros"'. Dies könnte als Annotation an statischen Methoden realisiert werden. Aufrufe dieser werden durch den Inhalt der Methode ersetzt, um den Kontextwechsel zu vermeiden und Potenziell das Laden der Utility-Klasse gänzlich unnötig zu machen.
 
-CTF Aufgabe
+Genau gegensätzlich dazu, könnten unsichtbarer Code erstellt werden. Dies wären Klassen mit leeren Methoden, deren Code beim laden generiert wird. In der Verwendung wäre ein Unterschied nicht erkennbar, jedoch bietet es eine denkbare alternative zu klassischen Code-Generatoren.
 
-Traceable generieren für Server
+Alle diese Mittel, welche schwer Nachvollziehbaren Code erzeugen, können auch bei der Erstellung von Aufgaben für Wettbewerbe verwendet werden. Hier könnte eine Reversing-Aufgabe, welche sonst meist nur aus Maschinencode besteht, in Form von komplexem Bytecode erfolgen, welcher weiteren Code generiert der das eigentliche Programm darstellt. So könnte eine große Verschachtlung erstellt werden, welche einer Herausforderung zum entschlüsseln darstellt.
