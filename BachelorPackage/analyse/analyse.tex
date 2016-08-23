@@ -18,7 +18,10 @@ Zu Anwendungen, die solche Visualisierung bereits umgesetzt haben, zählen "`Jel
 
 Jeliot ist eine Software, mit der lokale Programme analysiert werden können. Jedoch hat das Projekt seit 2007 keine Updates erhalten und ist deshalb mit Java 1.4 entwickelt worden. Moderne Programmierkonstrukte, die erst mit späteren Versionen eingeführt wurden, werden deshalb nicht unterstützt. Da das Programm zuerst ohne Interaktionsmöglichkeit ausgeführt wird, sind keine Eingaben möglich. Der gesamte Code muss in einem File sein um ausgeführt zu werden. Sind alle diese Randbedingungen erfüllt, kann damit die Ausführung schrittweise untersucht werden. Dabei werden Konstanten, der aktuelle Stack-Trace sowie Details aller Variablen und Methoden-Aufrufe visualisiert. Jeliot legt hier besonders Wert auf die Darstellung von Vererbungsstrukturen.
 
-\todo{Bild Jeliot (http://cs.joensuu.fi/jeliot/images/jeliot3.2.png)}
+\begin{figure}[h]
+	\includegraphics[width=\textwidth]{analyse/bilder/jeliot3.png}
+	\caption{Oberfläche von Jeliot 3 (Quelle: http://cs.joensuu.fi/jeliot/images/jeliot3.2.png)}
+\end{figure}
 
 Python Tutor ist ein Online-Tool, welches Programme in verschiedenen Sprachen visualisieren kann. Bei Java gibt es dabei ähnliche Einschränkungen wie bei Jeliot:
 \begin{itemize}
@@ -31,7 +34,10 @@ Python Tutor ist ein Online-Tool, welches Programme in verschiedenen Sprachen vi
 
 Auch hier erfolgt die Anzeige in einem übersichtlichen Format, mit Visualisierung von Zeigern und den Methoden auf dem Stack. Wichtig zu beachten ist jedoch, dass die Ausführung sehr langsam erfolgt. Selbst einfache Programme benötigen meist über eine Sekunde zur Ausführung.
 
-\todo{Bild Python Tutor}
+\begin{figure}[h]
+	\includegraphics[width=\textwidth]{analyse/bilder/pythonTutor.png}
+	\caption{Oberfläche von Python Tutor (Quelle: eigener Screenshot)}
+\end{figure}
 
 \section{Anforderungen} 
 \label{sec:anforderungen}

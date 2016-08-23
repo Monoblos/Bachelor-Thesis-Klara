@@ -1,1 +1,1 @@
-java -javaagent:/tracer/klara.jar=param1;param2;param3 Foo.Bar
+java -javaagent:/tracer/klara.jar=param1;param2;param3 foo.Bar

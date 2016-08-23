@@ -21,7 +21,6 @@ Eine zusätzlich denkbare Option ist ein gröberes Branching zu untersuchen, als
 Dies würde bei größeren Abläufen die Übersichtlichkeit erhöhen, besonders wenn lange laufende Schleifen vorhanden sind.
 
 Weitere kleinere mögliche Verbesserungen sind ein Ant-Plugin und Support für das debuggen von jar-Archiven. Ein Ant-Plugin könnte als Integration in einer beliebigen Entwicklungsumgebung genutzt werden. Jar-Archive können momentan noch nicht untersucht werden, lediglich .class-Dateien.
-\todo{Check jar support}
 
 Desweiteren habe ich Ideen für fünf große Erweiterungen:
 
@@ -46,24 +45,32 @@ Eine der Veränderungen, die hierbei durchgeführt werden können, aber die Lauf
 
 Genau gegensätzlich dazu könnte ein unsichtbarer Code erstellt werden. Dies wären Klassen mit leeren Methoden, deren Code beim Laden generiert wird. In der Verwendung wäre ein Unterschied nicht erkennbar, jedoch bietet er eine denkbare Alternative zu klassischen Code-Generatoren.
 
-Alle diese Mittel, welche einen schwer nachvollziehbaren Code erzeugen, können auch bei der Erstellung von Aufgaben für Wettbewerbe verwendet werden. Hier könnte eine Reversing-Aufgabe, welche sonst meist nur aus Maschinencode besteht, in Form von komplexem Bytecode erfolgen, welcher einen weiteren Code generiert, der das eigentliche Programm darstellt. So könnte eine große Verschachtelung erstellt werden, welche eine Herausforderung zum Entschlüsseln darstellt.
+Alle diese Mittel, welche einen schwer nachvollziehbaren Code erzeugen, können auch bei der Erstellung von Aufgaben für Wettbewerbe verwendet werden. Hier könnte eine Reversing-Aufgabe, welche sonst meist nur aus Maschinencode besteht, in Form von komplexem Bytecode erfolgen. Dieser würde weiteren Code generiert, der das eigentliche Programm darstellt. So könnte eine große Verschachtelung erstellt werden, welche eine Herausforderung zum Entschlüsseln darstellt.
 
 \chapter{Verfügbarkeit der Anwendung}
 
 Der gesamte Code der Anwendung ist online unter diesem Link verfügbar:
 
-https://github.com/Monoblos/github/labels/2013-new-repo-view
+https://github.com/Monoblos/Klara/tree/V1
 
 Die URL ist auch in gekürzte Version, sowie als eine QR-Code Repräsentation verfügbar:
 
-https://goo.gl/QiQEqI
-
-QR-Code
+\begin{figure}[h]
+	\centering
+	https://goo.gl/QiQEqI
+	
+	\includegraphics[width=5cm]{fazit/klara_short.png}
+	\caption{QR-Code-Darstellung der ersten kurzen URL (Quelle: Generiert von Google)}
+\end{figure}
 
 Ebenfalls sind alle Dateien zum erstellen dieser schriftlichen Ausarbeitung online verfügbar:
 
 https://github.com/Monoblos/Bachelor-Thesis-Klara/tree/V1
 
-https://goo.gl/gJSoTj
-
-QR-Code
+\begin{figure}[h]
+	\centering
+	https://goo.gl/gJSoTj
+	
+	\includegraphics[width=5cm]{fazit/thesis_short.png}
+	\caption{QR-Code-Darstellung der zweiten kurzen URL (Quelle: Generiert von Google)}
+\end{figure}

@@ -2,7 +2,7 @@
 
 \chapter{Technische Grundlagen}
 
-In diesem Kapitel werden die 3 wichtigen technischen Grundlagen für diese Arbeit beschrieben: Javas Bytecode, das ASM-Framework und das \ac{JDI}. Bytecode ist der "`übersetzte"' Java-Code. ASM bietet die Möglichkeit, diesen zu analysieren und manipulieren. Mit \ac{JDI} lässt sich eine \ac{JVM} erstellen, von der Laufzeitinformationen ausgelesen werden können. Sowohl ASM als auch \ac{JDI} bieten somit die Möglichkeit, den Ablauf eines Programms zu analysieren.
+In diesem Kapitel werden die 3 wichtigen technischen Grundlagen für diese Arbeit beschrieben: Javas Bytecode, das ASM-Framework und das \ac{JDI}. Bytecode ist der "`übersetzte"' Java-Code. ASM bietet die Möglichkeit, diesen zu analysieren und manipulieren. Mit \ac{JDI} lässt sich eine \ac{JVM} erstellen, von der Laufzeitinformationen ausgelesen werden können. Sowohl ASM als auch \ac{JDI} bieten somit die Möglichkeit, den Ablauf eines Programms zu analysieren. Zusätzlich wird auch ein alternatives Framework zu ASM vorgestellt und beschrieben warum dieses nicht geeignet ist.
 
 \section{Java Bytecode} 
 
@@ -13,7 +13,7 @@ Bei Java ist dies die \ac{JVM}, welche Bytecode ausführen kann, bei C\# ist es 
 
 Auch mehrere anderer Sprachen, wie \ac{PHP} und Python, verwenden Bytecode, obwohl sie offensichtlich den direkt interpretierten Code auszuführen scheinen. Jedoch bietet Python beispielsweise die Möglichkeit, auch den Bytecode in eine "`pyc"'-Datei zu speichern.
 
-Da Bytecode eine sehr exakte Repräsentation des originalen Codes darstellt, lässt sich dieser auch wieder daraus gewinnen. Mit verschiedenen existierenden Werkzeugen ist es so möglich, den Code eines Java oder C\# Programms zu erzeugen, obwohl nur der Bytecode zur Verfügung gestellt wurde.
+Da Bytecode eine sehr exakte Repräsentation des originalen Codes darstellt, lässt sich dieser auch wieder daraus gewinnen. Mit verschiedenen existierenden Werkzeugen ist es so möglich, den Code eines Java oder C\# Programms zu erzeugen, obwohl nur der Bytecode zur Verfügung gestellt wurde. Gerade bei kommerziellen Anwendungen ist dies meistens nicht gewünscht, jedoch schwer vermeidbar.
 
 Dies bietet jedoch auch den Vorteil, dass Bytecode sehr einfach manipuliert werden kann, nachdem er erzeugt wurde. Dies ermöglicht Änderungen, welche erst zur Laufzeit sichtbar werden, ohne den originalen Code zu kennen oder zu verändern. Auch dafür existieren Hilfsmittel, mit denen solche Manipulationen vereinfacht werden. In Java sind hierbei die beiden größten Frameworks ASM und Javassist.
 
@@ -25,18 +25,18 @@ ASM und Javasisst bieten beide Möglichkeiten, um Bytecode zu analysieren und zu
 
 Der Name ASM ist keine Abkürzung im eigentlichen Sinn, sondern kommt vom dem Befehl "`asm"', mit welchem sich in C direkt Assembler-Befehle ausführen lassen. Dieser Befehl wiederum ist eine Abkürzung für "`Assembler"'. Die erste Version wurde 2002 von Eric Bruneton veröffentlicht und seitdem weiterentwickelt, mit der zum Zeitpunkt dieser Arbeit neuesten Version veröffentlicht im März 2016.
 
-Wie der Namensursprung vermuten lässt, ist das Framework für Manipulation auf Bytecode-Ebene ausgelegt, welche in einer Assambler-ähnlichen Form erfolgen. Zusätzlich dazu bietet es auch die Möglichkeit, den existierenden Code zu analysieren und so dynamisch existierende Klassen zu verändern. Für die Analyse und Manipulation gibt es hier zwei verschiedene Möglichkeiten: Eine einfache Event-Chain-Struktur, welche hohe Performance bietet, aber deren Ablauf unveränderlich ist und eine Baum-Struktur, die langsamer ist, aber eine ungeordnete Modifikation erlaubt.
+Wie der Namensursprung vermuten lässt, ist das Framework für Manipulationen auf Bytecode-Ebene ausgelegt, welche in einer Assambler-ähnlichen Form erfolgen. Zusätzlich dazu bietet es auch die Möglichkeit, den existierenden Code zu analysieren und so dynamisch existierende Klassen zu verändern. Für die Analyse und Manipulation gibt es hier zwei verschiedene Möglichkeiten: Eine einfache Event-Chain-Struktur, welche hohe Performance bietet, aber deren Ablauf unveränderlich ist und eine Baum-Struktur, die langsamer ist, aber eine ungeordnete Modifikation erlaubt.
 Je nach Einsatzzweck ist es auch möglich, beide Techniken zu kombinieren, da sich eine Baum-Transformation in eine Event-Chain integrieren lässt. So sind komplexe Analysen und Transformationen möglich, sowohl statisch als auch dynamisch.
 
-Der Nachteil dieses Frameworks ist der erhöhte Aufwand, sich mit der Bytecode-Notation vertraut zu machen, welche hier die einzige Form ist, neuen Code einzufügen. Es ist nicht nötig, jedes Detail selbst als Bytecode schreiben zu können, jedoch sollte ein gutes Verständnis der Abläufe vorhanden sein. Wenn ein komplexerer Code erzeugt werden soll, so kann dieser in Java geschrieben, compiliert und dann mit ASM analysiert werden, um den dafür benötigten Bytecode zu generieren. Auch die äußerst ausführliche Dokumentation erleichtert den Einstieg gewaltig, da sie alle nötigen Details beschreibt.
+Der Nachteil dieses Frameworks ist der erhöhte Aufwand, sich mit der Bytecode-Notation vertraut zu machen, welche hier die einzige Form ist, neuen Code einzufügen. Es ist nicht nötig, jedes Detail selbst als Bytecode schreiben zu können, jedoch sollte ein gutes Verständnis der Abläufe vorhanden sein. Wenn ein komplexerer Code erzeugt werden soll, so kann dieser in Java geschrieben, compiliert und dann mit ASM analysiert werden, um den dafür benötigten Bytecode zu finden. Die äußerst ausführliche Dokumentation erleichtert zudem den Einstieg gewaltig, da sie alle nötigen Details beschreibt.
 
 \textbf{Javasisst}
 
 Der Name Javasisst steht für "`Java Programming Assistant"'. Das Framework existiert seit 1999 und wird in Japan von Shigeru Chiba entwickelt. Der Fokus liegt bei einer Manipulation auf Sourcecode-Ebene, obwohl es auch Werkzeuge zur Bearbeitung auf Bytecode-Ebene liefert.
 
-Der Vorteil hierbei liegt eindeutig bei der einfachen Benutzung, da Java-Code eingefügt werden kann und der Entwickler sich nicht im Detail mit Bytecode beschäftigen muss. Dies erlaubt einen schnellen Einstieg und die Möglichkeit, auch einen komplexen Code ohne großen Aufwand einzufügen.
+Der Vorteil hierbei liegt eindeutig bei der einfachen Benutzung, da Java-Code eingefügt werden kann und der Entwickler sich somit nur wenig mit Bytecode beschäftigen muss. Dies erlaubt einen schnellen Einstieg und die Möglichkeit, auch einen komplexen Code ohne großen Aufwand einzufügen.
 
-Der Nachteil ist jedoch ähnlich offensichtlich: Dadurch, dass der Fokus der Entwicklung nicht auf dem Bytecode lag, sind die Möglichkeiten, vorhandenen Code zu analysieren, sehr beschränkt. Es kommt durchaus mit Möglichkeiten dazu, jedoch nur in einer abstrakten Form, ohne Möglichkeit detaillierter zu scannen. Hier sind hauptsächlich Aussagen über den Speicher möglich, sowie über wenige grundsätzliche Kontrollflüsse. Dies hat natürlich nur bei dynamischen Transformationen Einfluss, statische sind hierbei nicht beeinträchtigt.
+Der Nachteil ist jedoch ähnlich offensichtlich: Dadurch, dass der Fokus der Entwicklung nicht auf dem Bytecode lag, sind die Möglichkeiten, vorhandenen Code zu analysieren, sehr beschränkt. Es kommt durchaus mit Werkzeugen dazu, jedoch nur in einer abstrakten Form, ohne Möglichkeit detaillierter zu scannen. Hier sind hauptsächlich Aussagen über den Speicher möglich, sowie über wenige grundsätzliche Kontrollflüsse. Dies hat natürlich nur bei dynamischen Transformationen Einfluss, statische sind hierbei nicht beeinträchtigt.
 
 \textbf{Entscheidung}
 
@@ -48,7 +48,7 @@ Aus diesen Gründen ist ASM die beste Alternative für eine Modifizierung des By
 
 \section{JDI} 
 
-\ac{JDI} steht für das "`Java Debug Interface"'. Dies ist eine \ac{API} von Oracle, mit deren Hilfe eine \ac{JVM} angehalten werden kann und Laufzeitinformationen ausgelesen werden können. Dies funktioniert sowohl für lokale als auch für entfernte virtuelle Maschinen. \ac{JDI} stellt dabei die höchste Ebene der \ac{JPDA} dar, welche seit der Version 1.3 von Java verfügbar ist.
+\ac{JDI} steht für das "`Java Debug Interface"'. Dies ist eine \ac{API} von Oracle, mit deren Hilfe eine \ac{JVM} angehalten werden kann um Laufzeitinformationen aus zu lesen. Dies funktioniert sowohl für lokale als auch für entfernte virtuelle Maschinen. \ac{JDI} stellt dabei die höchste Ebene der \ac{JPDA} dar, welche seit der Version 1.3 von Java verfügbar ist.
 
 Dies kann dazu genutzt werden, ein Java-Programm in einer spezifisch eingestellten \ac{JVM} zu starten, welche bei einer eingestellten Liste von Befehlstypen die Ausführung unterbricht und die Kontrolle an eine andere Anwendung übergibt, welche alle Laufzeitinformationen der erstellten \ac{JVM} auslesen kann. Indem nach jedem ausgeführtem Befehl unterbrochen wird, lässt sich somit ein Trace des gesamten Programmablaufs erstellen. Der wichtige Vorteil ist hierbei, dass keine Manipulation des ausgeführten Codes notwendig ist.
 
