@@ -1,1 +1,40 @@
-java -jar Klara.jar -i
+This is the commandline interface of Klara.
+Klara can be used to track bugs in Java programs.
+
+Argument specification:
+java -jar Klara.jar { -h | -H | { [ -f regex [ lines ] [ -f regex [ lines ]]... 
+    | -F regex [ -F regex]... ] [ -l lines ] [ -t ] [ -v ] } } progname [argumen
+    t [ agrumen]...]
+
+Argument details:
+  -h | -H
+    Show this help message
+  -f <regex> [<lines>]
+    Specify a whitelist rule. Can be used multiple times for multiple entries. C
+    an not be combined with -F. Can optionaly specify a specific lineset to debu
+    g in matching classes, overriding those set by -l
+  -F <regex>
+    Specify a blacklist rule. Can be used multiple times for multiple entries. C
+    an not be combined with -f
+  -l <lines>
+    Specify a line set to be loged. Use minus to specify a range, use comma or s
+    emicolon to seperate blocks.
+  -t
+    Trace the exact line order by printing every line run.
+  -o e | <file>
+    Write output to stderr or a file.
+  -b
+    Trace the branching used. Will evaluate which if case was executed, at what 
+    switch-case block it jumped and how many times loops where executed.
+  -v
+    Trace any variable assignment. Variables will be printed when declared and e
+    very time they are updated.
+  -i
+    Use interactive mode instead of detailed call. Will ignore other arguments.
+
+Example call:
+java -jar Klara.jar -t -v -f my.cool.class.* 20-50 my.cool.pkg.MyClass arg1 arg2
+
+
+
+Press Enter to exit.

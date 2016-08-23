@@ -7,8 +7,9 @@ public static enum FilterType {
 
 public TransformingClassLoader(
 	boolean cache, 
-	FilterType filterType, 
-	Map<Pattern, LineSpecification> filter, 
 	List<Class<? extends TransformationEventListener>>
 			transformers, 
-	LineSpecification defaultLineSpec)
+	FilterType filterType, 
+	Map<Pattern, LineSpecification> filter, 
+	LineSpecification defaultLineSpec,
+	boolean debug)
