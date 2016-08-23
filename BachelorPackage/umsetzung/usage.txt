@@ -2,9 +2,9 @@ This is the commandline interface of Klara.
 Klara can be used to track bugs in Java programs.
 
 Argument specification:
-java -jar Klara.jar { -h | -H | { [ -f regex [ lines ] [ -f regex [ lines ]]... 
-    | -F regex [ -F regex]... ] [ -l lines ] [ -t ] [ -v ] } } progname [argumen
-    t [ agrumen]...]
+java -jar Klara.jar { -h | -H | { [{ -f regex[ lines][ -f regex[ lines]]...}|{ -
+    F regex[ -F regex]...}] [ -l lines ] [ -t ] [ -v ] } progname [argument[ arg
+    ument]...] }
 
 Argument details:
   -h | -H
@@ -23,12 +23,10 @@ Argument details:
     Trace the exact line order by printing every line run.
   -o e | <file>
     Write output to stderr or a file.
-  -b
-    Trace the branching used. Will evaluate which if case was executed, at what 
-    switch-case block it jumped and how many times loops where executed.
   -v
     Trace any variable assignment. Variables will be printed when declared and e
-    very time they are updated.
+    very time they are updated. Will not track changes of encapsuled variables (
+    Like changing the "x" value of a "Point")
   -i
     Use interactive mode instead of detailed call. Will ignore other arguments.
 
